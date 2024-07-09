@@ -3,7 +3,6 @@ package com.proyecto.piscina.web.app.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.piscina.web.app.entities.Alumno;
@@ -15,7 +14,7 @@ import com.proyecto.piscina.web.app.respository.UsuarioRepository;
 public class AlumnoService {
     private final AlumnoRepository alumnoRepository;
     private final UsuarioRepository usuarioRepository;
-    @Autowired
+    
     public AlumnoService(AlumnoRepository alumnoRepository, UsuarioRepository usuarioRepository) {
         this.alumnoRepository = alumnoRepository;
         this.usuarioRepository = usuarioRepository;

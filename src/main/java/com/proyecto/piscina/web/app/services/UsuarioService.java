@@ -1,6 +1,5 @@
 package com.proyecto.piscina.web.app.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.proyecto.piscina.web.app.entities.Usuario;
 import com.proyecto.piscina.web.app.respository.UsuarioRepository;
@@ -13,7 +12,7 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    @Autowired
+    
     public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
