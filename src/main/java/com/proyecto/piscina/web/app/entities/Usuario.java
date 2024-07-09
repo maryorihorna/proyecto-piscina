@@ -58,4 +58,9 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Usuario orElseThrow(Object object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
+    }
 }
