@@ -1,6 +1,5 @@
 package com.proyecto.piscina.web.app.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.piscina.web.app.entities.*;
@@ -14,7 +13,7 @@ public class HorarioService {
 	private final HorarioRepository horarioRepository;
     private final InstructorRepository instructorRepository;
 
-    @Autowired
+    
     public HorarioService(HorarioRepository horarioRepository, InstructorRepository instructorRepository) {
         this.horarioRepository = horarioRepository;
         this.instructorRepository = instructorRepository;

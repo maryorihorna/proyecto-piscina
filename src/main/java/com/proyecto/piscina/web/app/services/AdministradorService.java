@@ -1,6 +1,5 @@
 package com.proyecto.piscina.web.app.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.proyecto.piscina.web.app.entities.Administrador;
 import com.proyecto.piscina.web.app.entities.Usuario;
@@ -16,7 +15,7 @@ public class AdministradorService {
     private final AdministradorRespository administradorRepository;
 
     private final UsuarioRepository usuarioRepository;
-    @Autowired
+    
     public AdministradorService(AdministradorRespository administradorRepository, UsuarioRepository usuarioRepository) {
         this.administradorRepository = administradorRepository;
         this.usuarioRepository = usuarioRepository;

@@ -1,6 +1,5 @@
 package com.proyecto.piscina.web.app.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.piscina.web.app.entities.Curso;
@@ -14,7 +13,7 @@ public class CursoService {
 	 
 	 private final CursoRepository cursoRepository;
 
-	 @Autowired
+	 
 	 public CursoService(CursoRepository cursoRepository) {
 		this.cursoRepository = cursoRepository;
 	 }
