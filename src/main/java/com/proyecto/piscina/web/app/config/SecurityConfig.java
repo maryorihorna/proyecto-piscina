@@ -23,14 +23,21 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/", "/home", "/register").permitAll()
+                .requestMatchers("/", "/home", "/register", "/auth/register", "/login").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin((form) -> form
                 .loginPage("/login")
+                .defaultSuccessUrl("/home", true)
+                .failureUrl("/login?error=true")
                 .permitAll()
             )
-            .logout((logout) -> logout.permitAll());
+            .logout((logout) -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout=true")
+                .permitAll()
+            );
+      
 
         return http.build();
     }
