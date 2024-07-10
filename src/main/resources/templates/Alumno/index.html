@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout/plantilla :: head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+     
+	<script src="https://kit.fontawesome.com/fb02c212b7.js" crossorigin="anonymous"></script>
+	<style>
+        /* Estilo personalizado para alinear el formulario a la izquierda */
+        .search-form {
+            justify-content: flex-end; /* Alinea los elementos al inicio */
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+
+        <div th:replace="layout/plantilla :: header"></div>
+
+        <nav th:replace="layout/plantilla :: nav"></nav>
+
+        <div th:replace="layout/plantilla :: sidebar"></div>
+    
+        <div class="main-panel" th:fragment="main">
+            <div class="content">
+				<div class="page-inner">
+					<div class="page-header row justify-content-center">
+						<h4 class="page-title">Alumno</h4>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-sm-6 col-md-10"> 
+							
+							<div class="card card-stats card-round"></div>
+		
+									<div class="row justify-content-between align-items-center mb-3">
+                                        <a th:href="@{/Alumno/create}">
+                                            <button type="button" class="btn btn-secondary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem">
+                                                Agregar Alumno
+                                            </button>
+                                        </a>
+										
+										<form class="d-flex" role="search">
+											<input style="width: 200px;" class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+											<button class="btn btn-secondary" type="submit">Buscar</button>
+										</form>
+									</div>
+				            </div>
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-sm-6 col-md-10">
+							<div class="card card-stats card-round">
+								<div class="card-body ">
+									<div class="row justify-content-center align-items-center">
+										<!-- <div class="col-icon">
+											<div class="icon-big text-center icon-primary bubble-shadow-small">
+												<i class="fas fa-users"></i>
+											</div>
+										</div> -->
+										<div>
+											<div>
+												<p class="card-category">Registros de Instructores</p><br>
+												<table class="table">
+													<thead style="background-color: #9791E8">
+														<tr>
+															<th scope="col" style="color:white">#</th>
+															<th scope="col" style="color:white">First</th>
+															<th scope="col" style="color:white">Last</th>
+															<th scope="col" style="color:white">Handle</th>
+															<th scope="col" style="color:white">Handle</th>
+															<th scope="col" style="color:white">Handle</th>
+															<th scope="col" style="color:white">Handle</th>
+															<th scope="col" style="color:white">Handle</th>
+															<th scope="col" style="color:white">Handle</th>
+															<th scope="col" style="color:white">Acciones</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>2</td>
+															<td>Mark</td>
+															<td>Otto</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>
+                                                                <a th:href="@{/Alumno/create}"><i class="fas fa-edit fa-lg" style="color: #74C0FC;"></i></a>
+																<a th:href="@{/Alumno/delete}"><i class="fas fa-trash fa-lg" style="color: red;"></i></a>
+																
+																
+                                                               
+															</td>
+														</tr>
+														<tr>
+															<td>2</td>
+															<td>Jacob</td>
+															<td>Thornton</td>
+															<td>@fat</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+														</tr>
+														<tr>
+															<td>3</td>
+															<td colspan="2">Larry the Bird</td>
+															<td>@twitter</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<nav aria-label="...">
+											<ul class="pagination">
+											  <li class="page-item disabled">
+												<a class="page-link">Anterior</a>
+											  </li>
+											  <li class="page-item"><a class="page-link" href="#">1</a></li>
+											  <li class="page-item active" aria-current="page">
+												<a class="page-link" href="#">2</a>
+											  </li>
+											  <li class="page-item"><a class="page-link" href="#">3</a></li>
+											  <li class="page-item">
+												<a class="page-link" href="#">Siguiente</a>
+											  </li>
+											</ul>
+										  </nav>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>	
+		</div>    
+    </div>
+    <div th:replace="layout/plantilla :: scripts"></div>
+</body>
+
+</html>
+
+												<tr>
+															<td>2</td>
+															<td>Jacob</td>
+															<td>Thornton</td>
+															<td>@fat</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+														</tr>
+														<tr>
+															<td>3</td>
+															<td colspan="2">Larry the Bird</td>
+															<td>@twitter</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+															<td>@mdo</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>	
+		</div>    
+    </div>
+    <div th:replace="layout/plantilla :: scripts"></div>
+</body>
+
+</html>
+

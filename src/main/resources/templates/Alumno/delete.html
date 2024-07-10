@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout/plantilla :: head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+     
+	<script src="https://kit.fontawesome.com/fb02c212b7.js" crossorigin="anonymous"></script>
+	<style>
+		body {
+			color: #999;
+			background: #fafafa;
+			font-family: 'Roboto', sans-serif;
+		}
+		.form-control {
+			min-height: 41px;
+			box-shadow: none;
+			border-color: #e6e6e6;
+		}
+		.form-control:focus {
+			border-color: #00c1c0;
+		}
+		.form-control, .btn {        
+			border-radius: 3px;
+		}
+		.signup-form {
+			width: 425px;
+			margin: 0 auto;
+			padding: 30px 0;
+		}
+		.signup-form h2 {
+			color: #333;
+			font-weight: bold;
+			margin: 0 0 25px;
+		}
+		.signup-form form {
+			margin-bottom: 15px;
+			background: #fff;
+			border: 1px solid #f4f4f4;
+			box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+			padding: 40px 50px;
+		}
+		.signup-form .form-group {
+			margin-bottom: 20px;
+		}
+		.signup-form label {
+			font-weight: normal;
+			font-size: 13px;
+		}
+		.signup-form input[type="checkbox"] {
+			margin-top: 2px;
+		}    
+		.signup-form .btn {        
+			font-size: 16px;
+			font-weight: bold;
+			background: #00c1c0;
+			border: none;
+			min-width: 140px;
+			outline: none !important;
+		}
+		.signup-form .btn:hover, .signup-form .btn:focus {
+			background: #00b3b3;
+		}
+		.signup-form a {
+			color: #00c1c0;
+			text-decoration: none;
+		}	
+		.signup-form a:hover {
+			text-decoration: underline;
+		}
+	</style>
+</head>
+<body>
+    <div class="wrapper">
+
+        <div th:replace="layout/plantilla :: header"></div>
+
+        <nav th:replace="layout/plantilla :: nav"></nav>
+
+        <div th:replace="layout/plantilla :: sidebar"></div>
+
+        <div class="main-panel" th:fragment="main">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header row justify-content-center">
+                        <h4 class="page-title">Eliminar Alumno</h4>  <!-- Cambia el título a "Eliminar Instructor" -->
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-sm-6 col-md-10">
+                            <div class="card card-stats card-round">
+                                <div class="card-body ">
+                                    <div class="signup-form">
+                                        <!-- No se necesita un formulario para eliminar -->
+                                        <div class="form-group">
+                                            <p>¿Estás seguro de que deseas eliminar este Alumno?</p> <!-- Mensaje de confirmación -->
+                                       
+                                        </div>
+                                        <br>
+
+                                        <a> <!-- Agrega un enlace para eliminar -->
+                                            <button type="button" class="btn btn-danger">Eliminar</button> <!-- Cambia el botón a "Eliminar" -->
+                                        </a>
+                                        <a th:href="@{/Alumno/index}">
+                                            <button type="button" class="btn btn-secondary">Cancelar</button>
+                                        </a>
+
+                                    
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>	
+        </div>    
+    </div>
+    <div th:replace="layout/plantilla :: scripts"></div>
+</body>
+</html>
