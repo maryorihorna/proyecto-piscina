@@ -16,10 +16,10 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idusuario;
 
-    @Column(name = "username", length = 20)
+    @Column(name = "username", length = 50)
     private String username;
 
-    @Column(name = "password", length = 20)
+    @Column(name = "password", length = 200)
     private String password;
 
    @OneToOne(mappedBy = "usuario")
@@ -57,5 +57,10 @@ public class Usuario {
     }  
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Usuario orElseThrow(Object object) {
+     
+        throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
     }
 }
