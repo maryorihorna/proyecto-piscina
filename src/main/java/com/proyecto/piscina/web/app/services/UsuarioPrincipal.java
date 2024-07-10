@@ -10,7 +10,7 @@ import com.proyecto.piscina.web.app.entities.Usuario;
 
 public class UsuarioPrincipal implements UserDetails {
 
-    private final Usuario usuario;
+    private Usuario usuario;
 
     public UsuarioPrincipal(Usuario usuario) {
         this.usuario = usuario;
@@ -18,7 +18,7 @@ public class UsuarioPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // No hay roles
+        return Collections.emptyList();
     }
 
     @Override
