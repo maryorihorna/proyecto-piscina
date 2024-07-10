@@ -1,7 +1,6 @@
 package com.proyecto.piscina.web.app.controllers;
 
-import org.slf4j.Logger; // Add this import statement
-import org.slf4j.LoggerFactory; // Add this import statement
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

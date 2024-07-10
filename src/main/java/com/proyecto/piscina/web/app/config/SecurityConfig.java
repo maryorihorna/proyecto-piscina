@@ -60,12 +60,11 @@ public class SecurityConfig {
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout=true")
                 .permitAll()
-            );
-
+            )
+            
+            ;
         logger.info("Cadena de filtros de seguridad configurada correctamente");
 
         return http.build();
     }
-   
-   
 }

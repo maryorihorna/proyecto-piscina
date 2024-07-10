@@ -269,9 +269,10 @@
 										</a>
 									</li>
 									<li>
-										<a href="#settings">
-											<span class="link-collapse">Settings</span>
-										</a>
+										
+											<form th:action="@{/logout}" method="post">
+												<input type="submit" value="Logout" />Settings
+											</form>
 									</li>
 								</ul>
 							</div>
