@@ -1,6 +1,23 @@
 # Build stage: utiliza una imagen de Maven con Amazon Corretto JDK 17
 FROM maven:3.9.8-amazoncorretto-17-al2023 AS build
 
+# Argumentos y variables de entorno
+ARG DB_URL
+ARG DB_USER
+ARG DB_PASSWORD
+ARG GH_CLIENT_ID
+ARG GH_CLIENT_SECRET
+ARG GOOGLE_CLIENT_ID
+ARG GOOGLE_CLIENT_SECRET
+
+ENV DB_URL=$DB_URL
+ENV DB_USER=$DB_USER
+ENV DB_PASSWORD=$DB_PASSWORD
+ENV GH_CLIENT_ID=$GH_CLIENT_ID
+ENV GH_CLIENT_SECRET=$GH_CLIENT_SECRET
+ENV GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+ENV GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /usr/src/app
 
