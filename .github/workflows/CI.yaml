@@ -7,8 +7,7 @@ on:
 
 jobs:
   build-and-push:
-    environment:
-        name: RepPiscina
+    environment: RepPiscina
     permissions: write-all
     runs-on: ubuntu-latest
     env:
@@ -38,8 +37,8 @@ jobs:
           ghcr.io/${{ github.repository }}/piscina-image:v${{ github.run_number }}
           ghcr.io/${{ github.repository }}/piscina-image:latest
         build-args: | 
-          DB_URL=${{ env.DB_URL}}
-          DB_USER=${{ env.DB_USER}}
+          DB_URL=${{ vars.DB_URL }}
+          DB_USER=${{ vars.DB_USER }}
           DB_PASSWORD=${{ secrets.DB_PASSWORD }}
           GH_CLIENT_ID=${{ secrets.GH_CLIENT_ID }}
           GH_CLIENT_SECRET=${{ secrets.GH_CLIENT_SECRET }}
