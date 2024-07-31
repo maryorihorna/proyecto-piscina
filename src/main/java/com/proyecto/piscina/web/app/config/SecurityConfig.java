@@ -1,9 +1,11 @@
 package com.proyecto.piscina.web.app.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,33 +43,48 @@ public class SecurityConfig {
     }
 
     @Bean
-     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        logger.info("Configurando la cadena de filtros de seguridad");
+    @Profile("test")
+    SecurityFilterChain testSecurityFilterChain(HttpSecurity http) throws Exception {
+        logger.info("Configurando la cadena de filtros de seguridad para el perfil de prueba");
 
         http
-            .authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/register", "/login", "/assets/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin((form) -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/login?error=true")
-                .permitAll()
-            )
-            .oauth2Login((oauth2) -> oauth2
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/login?error=true")
-                .permitAll()
-            )
-            .logout((logout) -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout=true")
-                .permitAll()
-            )
-            ;
-        logger.info("Cadena de filtros de seguridad configurada correctamente");
+            .csrf(AbstractHttpConfigurer::disable)  // Usar la nueva API Lambda DSL para desactivar CSRF
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll()  // Permite todas las peticiones sin autenticación
+            );
+
+        return http.build();
+    }
+
+    @Bean
+    @Profile("!test")
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        logger.info("Configurando la cadena de filtros de seguridad para entornos no de prueba");
+
+        http
+        .authorizeHttpRequests((auth) -> auth
+            .requestMatchers("/register", "/login", "/assets/**").permitAll()
+            .anyRequest().authenticated()
+        )
+        .formLogin((form) -> form
+            .loginPage("/login")
+            .defaultSuccessUrl("/", true)
+            .failureUrl("/login?error=true")
+            .permitAll()
+        )
+        .oauth2Login((oauth2) -> oauth2
+            .loginPage("/login")
+            .defaultSuccessUrl("/", true)
+            .failureUrl("/login?error=true")
+            .permitAll()
+        )
+        .logout((logout) -> logout
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login?logout=true")
+            .permitAll()
+        );
+
+        logger.info("Cadena de filtros de seguridad configurada correctamente para entornos no de prueba");
 
         return http.build();
     }
