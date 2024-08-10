@@ -11,7 +11,7 @@ public class Persona {
     @Column(name = "apellido", length = 20)
     private String apellido;
 
-    @Column(name = "email", length = 20)
+    @Column(name = "email", length = 50)
     private String email;
 
     @Column(name = "telefono", length = 9)

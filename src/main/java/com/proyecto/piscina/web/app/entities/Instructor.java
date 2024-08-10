@@ -16,10 +16,6 @@ public class Instructor extends Persona{
     public Instructor() {
     }
 
-    public Instructor(String nombre, String apellido, String email, String telefono) {
-        super(nombre, apellido, email, telefono);
-    }
-
     public Long getIdInstructor() {
         return IdInstructor;
     }
@@ -27,6 +23,7 @@ public class Instructor extends Persona{
     public void setIdInstructor(Long idInstructor) {
         IdInstructor = idInstructor;
     }
+
 
     
 }

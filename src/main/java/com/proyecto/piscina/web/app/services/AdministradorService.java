@@ -6,6 +6,8 @@ import com.proyecto.piscina.web.app.entities.Usuario;
 import com.proyecto.piscina.web.app.respository.AdministradorRespository;
 import com.proyecto.piscina.web.app.respository.UsuarioRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,16 +17,25 @@ public class AdministradorService {
     private final AdministradorRespository administradorRepository;
 
     private final UsuarioRepository usuarioRepository;
-    
-    public AdministradorService(AdministradorRespository administradorRepository, UsuarioRepository usuarioRepository) {
-        this.administradorRepository = administradorRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public AdministradorService(UsuarioRepository usuarioRepository, AdministradorRespository administradorRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.administradorRepository = administradorRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
+
     public Administrador saveAdministrador(Administrador administrador) {
+        // Encriptar la contraseña del usuario
+        Usuario usuario = administrador.getUsuario();
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
         // Primero, guarda el usuario
-        Usuario savedUsuario = usuarioRepository.save(administrador.getUsuario());
-        // Establece el usuario guardado en el alumno
+        Usuario savedUsuario = usuarioRepository.save(usuario);
+
+        // Establece el usuario guardado en el administrador
         administrador.setUsuario(savedUsuario);
         return administradorRepository.save(administrador);
     }

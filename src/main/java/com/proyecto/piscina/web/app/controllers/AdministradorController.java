@@ -1,58 +1,62 @@
 package com.proyecto.piscina.web.app.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import com.proyecto.piscina.web.app.entities.Administrador;
 import com.proyecto.piscina.web.app.services.AdministradorService;
 
-@RestController
-@RequestMapping("/api/administradores")
+@Controller
+@RequestMapping("/administradores")
 public class AdministradorController {
 
     private final AdministradorService administradorService;
 
+    @Autowired
     public AdministradorController(AdministradorService administradorService) {
         this.administradorService = administradorService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Administrador> getAdministrador(@PathVariable long id) {
-        Optional<Administrador> administrador = administradorService.getAdministrador(id);
-        if (administrador.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(administrador.get());
+    @GetMapping
+    public String listarAdministradores(Model model) {
+        List<Administrador> administradores = administradorService.getAllAdministradores();
+        model.addAttribute("administradores", administradores);
+        return "CRUDS/Administrador/index";
+    }
+
+    @GetMapping("/create")
+    public String showCreateForm(Model model) {
+        Administrador administrador = new Administrador();
+        model.addAttribute("administrador", administrador);
+        return "CRUDS/Administrador/create";
     }
 
     @PostMapping
-    public ResponseEntity<Administrador> saveAdministrador(@RequestBody Administrador administrador) {
-        return ResponseEntity.ok(administradorService.saveAdministrador(administrador));
+    public String saveAdministrador(@ModelAttribute("administrador") Administrador administrador) {
+        administradorService.saveAdministrador(administrador);
+        return "redirect:/administradores";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Administrador> updateAdministrador(@PathVariable long id, @RequestBody Administrador administrador) {
-        return ResponseEntity.ok(administradorService.updateAdministrador(id, administrador));
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+        Administrador administrador = administradorService.getAdministrador(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de administrador inválido:" + id));
+        model.addAttribute("administrador", administrador);
+        return "CRUDS/Administrador/update";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Administrador> deleteAdministrador(@PathVariable long id) {
+    @PostMapping("/update/{id}")
+    public String updateAdministrador(@PathVariable("id") long id, @ModelAttribute("administrador") Administrador administrador) {
+        administradorService.updateAdministrador(id, administrador);
+        return "redirect:/administradores";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteAdministrador(@PathVariable("id") long id) {
         administradorService.deleteAdministrador(id);
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Administrador>> getAdministradores() {
-        return ResponseEntity.ok(administradorService.getAllAdministradores());
+        return "redirect:/administradores";
     }
 }

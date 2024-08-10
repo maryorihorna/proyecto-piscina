@@ -31,8 +31,8 @@ public class MatriculaService {
 
 	    public Matricula saveMatricula(Matricula matricula) {
 	        // Verificar si existe el Alumno
-	        Alumno alumno = alumnoRepository.findById(matricula.getAlumno().getIdAlumno())
-	                .orElseThrow(() -> new IllegalStateException("Alumno no encontrado con ID: " + matricula.getAlumno().getIdAlumno()));
+	        Alumno alumno = alumnoRepository.findById(matricula.getAlumno().getIdalumno())
+	                .orElseThrow(() -> new IllegalStateException("Alumno no encontrado con ID: " + matricula.getAlumno().getIdalumno()));
 
 	        // Verificar si existe la Clase
 	        Clase clase = claseRepository.findById(matricula.getClase().getId())

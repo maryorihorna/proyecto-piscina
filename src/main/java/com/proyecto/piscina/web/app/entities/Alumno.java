@@ -2,6 +2,7 @@ package com.proyecto.piscina.web.app.entities;
 
 import java.util.Date;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+
 
 @Table(name = "alumnos")
 @Entity
@@ -36,28 +38,14 @@ public class Alumno extends Persona{
     public Alumno() {
     }
 
-    // Constructor con todos los atributos incluido usuario para crearlo al mismo junto con el alumno
-    public Alumno(String nombre, String apellido, String email, String telefono, String direccion, Date fecha_nacimiento, Usuario usuario) {
-        super(nombre, apellido, email, telefono);
-        this.direccion = direccion;
-        this.fecha_nacimiento = fecha_nacimiento;
-        this.usuario = usuario;
-    }
-
-    public Alumno(String nombre, String apellido, String email, String telefono, String direccion, Date fecha_nacimiento) {
-        super(nombre, apellido, email, telefono);
-        this.direccion = direccion;
-        this.fecha_nacimiento = fecha_nacimiento;
-    }
-
-    public Long getIdAlumno() {
+    public Long getIdalumno() {
         return idalumno;
     }
 
-    public void setIdAlumno(Long id) {
-        idalumno = id;
+    public void setIdalumno(Long idalumno) {
+        this.idalumno = idalumno;
     }
-    
+
     public String getDireccion() {
         return direccion;
     }
@@ -81,5 +69,7 @@ public class Alumno extends Persona{
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+
 
 }

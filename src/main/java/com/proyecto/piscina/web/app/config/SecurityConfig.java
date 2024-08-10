@@ -46,7 +46,7 @@ public class SecurityConfig {
 
         http
             .authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/register", "/login", "/assets/**").permitAll()
+                .requestMatchers("/register", "/login", "/assets/**", "/api/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin((form) -> form
@@ -55,12 +55,7 @@ public class SecurityConfig {
                 .failureUrl("/login?error=true")
                 .permitAll()
             )
-            .oauth2Login((oauth2) -> oauth2
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/login?error=true")
-                .permitAll()
-            )
+
             .logout((logout) -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout=true")

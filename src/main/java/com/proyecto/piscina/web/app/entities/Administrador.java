@@ -22,21 +22,12 @@ public class Administrador extends Persona{
     public Administrador() {
     }
 
-    // Constructor con todos los atributos incluido usuario para crearlo al mismo junto con el administrador
-    public Administrador(String nombre, String apellido, String email, String telefono, Usuario usuario) {
-        super(nombre, apellido, email, telefono);
-        this.usuario = usuario;
-    }
-    public Administrador(String nombre, String apellido, String email, String telefono) {
-        super(nombre, apellido, email, telefono);
-    }
-
-    public Long getIdAdministrador() {
+    public Long getIdadministrador() {
         return idadministrador;
     }
 
-    public void setIdAdministrador(Long idAdministrador) {
-        idadministrador = idAdministrador;
+    public void setIdadministrador(Long idadministrador) {
+        this.idadministrador = idadministrador;
     }
 
     public Usuario getUsuario() {
@@ -46,6 +37,8 @@ public class Administrador extends Persona{
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+
 
 
 }

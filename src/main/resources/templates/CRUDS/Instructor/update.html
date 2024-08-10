@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout/plantilla :: head">
+</head>
+<body>
+    <div class="wrapper">
+        <div th:replace="layout/plantilla :: header"></div>
+        <nav th:replace="layout/plantilla :: nav"></nav>
+        <div th:replace="layout/plantilla :: sidebar"></div>
+        <!-- Contenido principal -->
+        <div class="main-panel">
+			<div class="content">
+				<div class="page-inner">
+					<div class="page-header">
+                        <h4 class="page-title">Actualizar Instructor</h4>
+                    </div>
+                </div>
+                <div >
+                    <form th:action="@{/instructores/update/{id}(id=${instructor.IdInstructor})}" th:object="${instructor}" method="post">
+                        <div>
+                            <label for="nombre">Nombre</label>
+                            <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre">
+                
+                            <label for="apellido">Apellido</label>
+                            <input type="text" th:field="*{apellido}" class="form-control" id="apellido" placeholder="Apellido">
+                
+                            <label for="email">Email</label>
+                            <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Email">
+                
+                            <label for="telefono">Telefono</label>
+                            <input type="text" th:field="*{telefono}" class="form-control" id="telefono" placeholder="Telefono">
+                
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+   
+        <div th:replace="layout/plantilla :: color" ></div>
+    </div>
+     
+    <div th:replace="layout/plantilla :: scripts"></div>
+</body>
+</html>

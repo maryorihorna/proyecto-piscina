@@ -1,58 +1,60 @@
 package com.proyecto.piscina.web.app.controllers;
-
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import com.proyecto.piscina.web.app.entities.Instructor;
 import com.proyecto.piscina.web.app.services.InstructorService;
 
-@RestController
-@RequestMapping("/api/instructores")
+@Controller
+@RequestMapping("/instructores")
 public class InstructorController {
 
     private final InstructorService instructorService;
 
+    @Autowired
     public InstructorController(InstructorService instructorService) {
         this.instructorService = instructorService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Instructor> getInstructor(@PathVariable long id) {
-        Optional<Instructor> instructor = instructorService.getInstructor(id);
-        if (instructor.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(instructor.get());
+    @GetMapping
+    public String listarInstructores(Model model) {
+        List<Instructor> instructores = instructorService.getAllInstructors();
+        model.addAttribute("instructores", instructores);
+        return "CRUDS/Instructor/index";
+    }
+
+    @GetMapping("/create")
+    public String showCreateForm(Model model) {
+        Instructor instructor = new Instructor();
+        model.addAttribute("instructor", instructor);
+        return "CRUDS/Instructor/create";
     }
 
     @PostMapping
-    public ResponseEntity<Instructor> saveInstructor(@RequestBody Instructor instructor) {
-        return ResponseEntity.ok(instructorService.saveInstructor(instructor));
+    public String saveInstructor(@ModelAttribute("instructor") Instructor instructor) {
+        instructorService.saveInstructor(instructor);
+        return "redirect:/instructores";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Instructor> updateInstructor(@PathVariable long id, @RequestBody Instructor instructor) {
-        return ResponseEntity.ok(instructorService.updateInstructor(id, instructor));
+    @GetMapping("/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+        Instructor instructor = instructorService.getInstructor(id)
+            .orElseThrow(() -> new IllegalArgumentException("Id de instructor inválido:" + id));
+        model.addAttribute("instructor", instructor);
+        return "CRUDS/Instructor/update";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Instructor> deleteInstructor(@PathVariable long id) {
+    @PostMapping("/update/{id}")
+    public String updateInstructor(@PathVariable("id") long id, @ModelAttribute("instructor") Instructor instructor) {
+        instructorService.updateInstructor(id, instructor);
+        return "redirect:/instructores";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteInstructor(@PathVariable("id") long id) {
         instructorService.deleteInstructor(id);
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Instructor>> getInstructors() {
-        return ResponseEntity.ok(instructorService.getAllInstructors());
+        return "redirect:/instructores";
     }
 }

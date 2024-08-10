@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout/plantilla :: head">
+</head>
+<body>
+    <div class="wrapper">
+        <div th:replace="layout/plantilla :: header"></div>
+        <nav th:replace="layout/plantilla :: nav"></nav>
+        <div th:replace="layout/plantilla :: sidebar"></div>
+        <!-- Contenido principal -->
+        <div class="main-panel">
+			<div class="content">
+				<div class="page-inner">
+					<div class="page-header">
+                        <h4 class="page-title">Instructores</h4>
+                    </div>
+                </div>
+                <div >
+                    <div>
+                        <a th:href="@{/instructores/create}" class="btn btn-primary">Crear Instructor</a>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre y Apellidos</th>
+                                <th>Email</th>
+                                <th>Telefono</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="instructor : ${instructores}">
+                                <td th:text="${instructor.IdInstructor}"></td>
+                                <td th:text="${instructor.nombre + ' ' + instructor.apellido}"></td>
+                                <td th:text="${instructor.email}"></td>
+                                <td th:text="${instructor.telefono}"></td>
+                                <td>
+                                    <a th:href="@{/instructores/edit/{id}(id=${instructor.IdInstructor})}" class="btn btn-sm btn-secondary">Editar</a>
+                                    <a th:href="@{/instructores/delete/{id}(id=${instructor.IdInstructor})}" class="btn btn-sm btn-danger" onclick="confirmarEliminacion(event)">Eliminar</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+   
+        <div th:replace="layout/plantilla :: color" ></div>
+    </div>
+    <script>
+        function confirmarEliminacion(event) {
+            // Confirmar antes de eliminar
+            var confirmacion = confirm("¿Estás seguro de que deseas eliminar este administrador?");
+            if (!confirmacion) {
+                // Si el usuario hace clic en "Cancelar", evita seguir el enlace
+                event.preventDefault();
+            }
+        }
+    </script>    
+    <div th:replace="layout/plantilla :: scripts"></div>
+</body>
+</html>

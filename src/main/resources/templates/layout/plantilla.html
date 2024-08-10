@@ -7,7 +7,7 @@
 	<title>TITULO PRUEBA</title>
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
 	<link rel="icon" th:href="@{/assets/img/icon.ico}" type="image/x-icon"/>
-
+	<script src="https://kit.fontawesome.com/60b3ef6959.js" crossorigin="anonymous"></script>
 	<!-- Fonts and icons -->
 	<script th:src="@{/assets/js/plugin/webfont/webfont.min.js}"></script>
 	<script>
@@ -37,7 +37,7 @@
 			<div class="logo-header">
 
 				<a href="index.html" class="logo">
-					<img src="../assets/img/logoazzara.svg" alt="navbar brand" class="navbar-brand">
+					<img th:src="@{/assets/img/logoazzara.svg}" alt="navbar brand" class="navbar-brand">
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon">
@@ -91,7 +91,7 @@
 										<div class="notif-center">
 											<a href="#">
 												<div class="notif-img">
-													<img src="../assets/img/jm_denis.jpg" alt="Img Profile">
+													<img th:src="@{/assets/img/jm_denis.jpg}" alt="Img Profile">
 												</div>
 												<div class="notif-content">
 													<span class="subject">Jimmy Denis</span>
@@ -103,7 +103,7 @@
 											</a>
 											<a href="#">
 												<div class="notif-img">
-													<img src="../assets/img/chadengle.jpg" alt="Img Profile">
+													<img th:src="@{/assets/img/chadengle.jpg}" alt="Img Profile">
 												</div>
 												<div class="notif-content">
 													<span class="subject">Chad</span>
@@ -115,7 +115,7 @@
 											</a>
 											<a href="#">
 												<div class="notif-img">
-													<img src="../assets/img/mlane.jpg" alt="Img Profile">
+													<img th:src="@{/assets/img/mlane.jpg}" alt="Img Profile">
 												</div>
 												<div class="notif-content">
 													<span class="subject">Jhon Doe</span>
@@ -127,7 +127,7 @@
 											</a>
 											<a href="#">
 												<div class="notif-img">
-													<img src="../assets/img/talha.jpg" alt="Img Profile">
+													<img th:src="@{/assets/img/talha.jpg}" alt="Img Profile">
 												</div>
 												<div class="notif-content">
 													<span class="subject">Talha</span>
@@ -176,7 +176,7 @@
 										</a>
 										<a href="#">
 											<div class="notif-img">
-												<img src="../assets/img/profile2.jpg" alt="Img Profile">
+												<img th:src="@{/assets/img/profile2.jpg}" alt="Img Profile">
 											</div>
 											<div class="notif-content">
 												<span class="block">
@@ -204,13 +204,13 @@
 						<li class="nav-item dropdown hidden-caret">
 							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
 								<div class="avatar-sm">
-									<img src="../assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+									<img th:src="@{/assets/img/profile.jpg}" alt="..." class="avatar-img rounded-circle">
 								</div>
 							</a>
 							<ul class="dropdown-menu dropdown-user animated fadeIn">
 								<li>
 									<div class="user-box">
-										<div class="avatar-lg"><img src="../assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
+										<div class="avatar-lg"><img th:src="@{/assets/img/profile.jpg}" alt="image profile" class="avatar-img rounded"></div>
 										<div class="u-text">
 											<h4>Hizrian</h4>
 											<p class="text-muted">hello@example.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
@@ -235,7 +235,6 @@
 			</nav>
 			<!-- End Navbar -->
 		</div>
-
 		<!-- Sidebar -->
 		<div th:fragment="sidebar" class="sidebar">
 
@@ -244,7 +243,7 @@
 				<div class="sidebar-content">
 					<div class="user">
 						<div class="avatar-sm float-left mr-2">
-							<img src="../assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+							<img th:src="@{/assets/img/profile.jpg}" alt="..." class="avatar-img rounded-circle">
 						</div>
 						<div class="info">
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
@@ -295,24 +294,24 @@
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#base">
 								<i class="fas fa-layer-group"></i>
-								<p>Base</p>
+								<p>CRUDS</p>
 								<span class="caret"></span>
 							</a>
 							<div class="collapse" id="base">
 								<ul class="nav nav-collapse">
 									<li>
-										<a href="components/avatars.html">
-											<span class="sub-item">Avatars</span>
+										<a th:href="@{/administradores}">
+											<span class="sub-item">Administradores</span>
 										</a>
 									</li>
 									<li>
-										<a href="components/buttons.html">
-											<span class="sub-item">Buttons</span>
+										<a th:href="@{/alumnos}">
+											<span class="sub-item">Alumnos</span>
 										</a>
 									</li>
 									<li>
-										<a href="components/gridsystem.html">
-											<span class="sub-item">Grid System</span>
+										<a th:href="@{/instructores}">
+											<span class="sub-item">Instructores</span>
 										</a>
 									</li>
 									<li>
@@ -527,14 +526,40 @@
 				</div>
 			</div>
 		</div>
-		<!-- End Sidebar -->
-
-		<div class="main-panel" th:fragment="main">
-		
-			
-		</div>    
-
+    
+		<!-- Custom template | don't include it in your project! -->
+		<div class="custom-template" th:fragment="color">
+			<div class="title">Settings</div>
+			<div class="custom-content">
+				<div class="switcher">
+					<div class="switch-block">
+						<h4>Topbar</h4>
+						<div class="btnSwitch">
+							<button type="button" class="changeMainHeaderColor" data-color="blue"></button>
+							<button type="button" class="selected changeMainHeaderColor" data-color="purple"></button>
+							<button type="button" class="changeMainHeaderColor" data-color="light-blue"></button>
+							<button type="button" class="changeMainHeaderColor" data-color="green"></button>
+							<button type="button" class="changeMainHeaderColor" data-color="orange"></button>
+							<button type="button" class="changeMainHeaderColor" data-color="red"></button>
+						</div>
+					</div>
+					<div class="switch-block">
+						<h4>Background</h4>
+						<div class="btnSwitch">
+							<button type="button" class="changeBackgroundColor" data-color="bg2"></button>
+							<button type="button" class="changeBackgroundColor selected" data-color="bg1"></button>
+							<button type="button" class="changeBackgroundColor" data-color="bg3"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="custom-toggle">
+				<i class="flaticon-settings"></i>
+			</div>
+		</div>
+				<!-- End Custom template -->
 	</div>
+
 	<div th:fragment="scripts">
 		<!--   Core JS Files   -->
 		<script th:src="@{/assets/js/core/jquery.3.2.1.min.js}"></script>
@@ -581,6 +606,12 @@
 
 		<!-- Azzara JS -->
 		<script th:src="@{/assets/js/ready.min.js}"></script>
+
+		<script type="text/javascript" th:src="@{//themera.net/embed/themera.js?id=71769}"></script>
+
+		<!-- Azzara DEMO methods, don't include it in your project! -->
+		<script th:src="@{/assets/js/setting-demo.js}"></script>
+		<script th:src="@{/assets/js/demo.js}"></script>
 	</div>
 	
 </body>

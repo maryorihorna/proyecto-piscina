@@ -3,6 +3,7 @@ package com.proyecto.piscina.web.app.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.piscina.web.app.entities.Alumno;
@@ -14,18 +15,24 @@ import com.proyecto.piscina.web.app.respository.UsuarioRepository;
 public class AlumnoService {
     private final AlumnoRepository alumnoRepository;
     private final UsuarioRepository usuarioRepository;
-    
-    public AlumnoService(AlumnoRepository alumnoRepository, UsuarioRepository usuarioRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public AlumnoService(AlumnoRepository alumnoRepository, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.alumnoRepository = alumnoRepository;
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Alumno saveAlumno(Alumno alumno) {
-        // Primero, guarda el usuario
-        Usuario savedUsuario = usuarioRepository.save(alumno.getUsuario());
-
-        // Establece el usuario guardado en el alumno
-        alumno.setUsuario(savedUsuario);
+          // Encriptar la contraseña del usuario
+          Usuario usuario = alumno.getUsuario();
+          usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+  
+          // Primero, guarda el usuario
+          Usuario savedUsuario = usuarioRepository.save(usuario);
+  
+          // Establece el usuario guardado en el administrador
+          alumno.setUsuario(savedUsuario);
 
         return alumnoRepository.save(alumno);
     }
@@ -57,7 +64,9 @@ public class AlumnoService {
         alumnoRepository.deleteById(id);
     }
 
-    public Optional<Alumno> getAlumno(long id) {
+    public Optional <Alumno> getAlumno(long id) {
         return alumnoRepository.findById(id);
     }
+    
+
 }
