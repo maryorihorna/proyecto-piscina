@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout/plantilla :: head">
+</head>
+<body>
+    <div class="wrapper">
+        <div th:replace="layout/plantilla :: header"></div>
+        <nav th:replace="layout/plantilla :: nav"></nav>
+        <div th:replace="layout/plantilla :: sidebar"></div>
+        <!-- Contenido principal -->
+        <div class="main-panel">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header">
+                        <h4 class="page-title">Pagos</h4>
+                    </div>
+                </div>
+                <div>
+                    <a th:href="@{/pagos/create}" class="btn btn-primary">Crear Pago</a>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Matrícula</th>
+                            <th>Fecha</th>
+                            <th>Monto</th>
+                            <th>Método de Pago</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="pago : ${pagos}">
+                            <td th:text="${pago.idPago}"></td>
+                            <td th:text="${pago.matricula.idMatricula}"></td>
+                            <td th:text="${pago.fecha}"></td>
+                            <td th:text="${pago.monto}"></td>
+                            <td th:text="${pago.metodoPago}"></td>
+                            <td>
+                                <a th:href="@{/pagos/edit/{id}(id=${pago.idPago})}" class="btn btn-sm btn-secondary">Editar</a>
+                                <a th:href="@{/pagos/delete/{id}(id=${pago.idPago})}" class="btn btn-sm btn-danger" onclick="confirmarEliminacion(event)">Eliminar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div th:replace="layout/plantilla :: color" ></div>
+    </div>
+    <script>
+        function confirmarEliminacion(event) {
+            var confirmacion = confirm("¿Estás seguro de que deseas eliminar este pago?");
+            if (!confirmacion) {
+                event.preventDefault();
+            }
+        }
+    </script>
+    <div th:replace="layout/plantilla :: scripts"></div>
+</body>
+</html>

@@ -2,12 +2,15 @@ package com.proyecto.piscina.web.app.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.proyecto.piscina.web.app.entities.*;
-import com.proyecto.piscina.web.app.respository.*;
+import com.proyecto.piscina.web.app.entities.Matricula;
+import com.proyecto.piscina.web.app.entities.Pago;
+import com.proyecto.piscina.web.app.respository.MatriculaRepository;
+import com.proyecto.piscina.web.app.respository.PagoRepository;
 
 @Service
 public class PagoService {
@@ -53,5 +56,9 @@ public class PagoService {
         existingPago.setMetodoPago(updatedPago.getMetodoPago());
 
         return pagoRepository.save(existingPago);
+    }
+
+    public Optional<Pago> getPago(long id) {
+        return pagoRepository.findById(id);
     }
 }
