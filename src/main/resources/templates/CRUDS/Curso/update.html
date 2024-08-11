@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout/plantilla :: head">
+</head>
+<body>
+    <div class="wrapper">
+        <div th:replace="layout/plantilla :: header"></div>
+        <nav th:replace="layout/plantilla :: nav"></nav>
+        <div th:replace="layout/plantilla :: sidebar"></div>
+        <!-- Contenido principal -->
+        <div class="main-panel">
+			<div class="content">
+				<div class="page-inner">
+					<div class="page-header">
+                        <h4 class="page-title">Actualizar Curso</h4>
+                    </div>
+                </div>
+                <div >
+                    <form th:action="@{/cursos/update/{id}(id=${curso.id_curso})}" th:object="${curso}" method="post">
+                        <div>
+                            <label for="nombre">Nombre</label>
+                            <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre del curso">
+                
+                            <label for="descripcion">Descripción</label>
+                            <input type="text" th:field="*{descripcion}" class="form-control" id="descripcion" placeholder="Descripción">
+                
+                            <label for="nivel">Nivel</label>
+                            <input type="text" th:field="*{nivel}" class="form-control" id="nivel" placeholder="Nivel">
+                
+                            <label for="cupo_maximo">Cupo Máximo</label>
+                            <input type="number" th:field="*{cupo_maximo}" class="form-control" id="cupo_maximo" placeholder="Cupo Máximo">
+
+                            <label for="fecha_inicio">Fecha de Inicio</label>
+                            <input type="date" th:field="*{fecha_inicio}" class="form-control" id="fecha_inicio" placeholder="Fecha de Inicio">
+                            
+                            <label for="fecha_fin">Fecha de Fin</label>
+                            <input type="date" th:field="*{fecha_fin}" class="form-control" id="fecha_fin" placeholder="Fecha de Fin">
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+   
+        <div th:replace="layout/plantilla :: color" ></div>
+    </div>
+     
+    <div th:replace="layout/plantilla :: scripts"></div>
+</body>
+</html>

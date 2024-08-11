@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout/plantilla :: head">
+</head>
+<body>
+    <div class="wrapper">
+        <div th:replace="layout/plantilla :: header"></div>
+        <nav th:replace="layout/plantilla :: nav"></nav>
+        <div th:replace="layout/plantilla :: sidebar"></div>
+        <!-- Contenido principal -->
+        <div class="main-panel">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header">
+                        <h4 class="page-title">Actualizar Horario</h4>
+                    </div>
+                </div>
+                <div>
+                    <form th:action="@{/horarios/update/{id}(id=${horario.id_horario})}" th:object="${horario}" method="post">
+                        <div>
+                            <label for="instructor">Instructor</label>
+                            <select th:field="*{instructor.idInstructor}" class="form-control" id="instructor">
+                                <option th:each="instructor : ${instructores}" 
+                                        th:value="${instructor.idInstructor}" 
+                                        th:text="${instructor.nombre}"></option>
+                            </select>
+
+                            <label for="dia_semana">Día de la Semana</label>
+                            <input type="text" th:field="*{dia_semana}" class="form-control" id="dia_semana" placeholder="Día de la Semana">
+
+                            <label for="hora_inicio">Hora de Inicio</label>
+                            <input type="time" th:field="*{hora_inicio}" class="form-control" id="hora_inicio">
+
+                            <label for="hora_fin">Hora de Fin</label>
+                            <input type="time" th:field="*{hora_fin}" class="form-control" id="hora_fin">
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div th:replace="layout/plantilla :: color" ></div>
+    </div>
+    <div th:replace="layout/plantilla :: scripts"></div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout/plantilla :: head">
+</head>
+<body>
+    <div class="wrapper">
+        <div th:replace="layout/plantilla :: header"></div>
+        <nav th:replace="layout/plantilla :: nav"></nav>
+        <div th:replace="layout/plantilla :: sidebar"></div>
+        <!-- Contenido principal -->
+        <div class="main-panel">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header">
+                        <h4 class="page-title">Horarios</h4>
+                    </div>
+                </div>
+                <div>
+                    <a th:href="@{/horarios/create}" class="btn btn-primary">Crear Horario</a>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Instructor</th>
+                            <th>Día de la Semana</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Fin</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="horario : ${horarios}">
+                            <td th:text="${horario.id_horario}"></td>
+                            <td th:text="${horario.instructor.nombre}"></td>
+                            <td th:text="${horario.dia_semana}"></td>
+                            <td th:text="${horario.hora_inicio}"></td>
+                            <td th:text="${horario.hora_fin}"></td>
+                            <td>
+                                <a th:href="@{/horarios/edit/{id}(id=${horario.id_horario})}" class="btn btn-sm btn-secondary">Editar</a>
+                                <a th:href="@{/horarios/delete/{id}(id=${horario.id_horario})}" class="btn btn-sm btn-danger" onclick="confirmarEliminacion(event)">Eliminar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div th:replace="layout/plantilla :: color" ></div>
+    </div>
+    <script>
+        function confirmarEliminacion(event) {
+            var confirmacion = confirm("¿Estás seguro de que deseas eliminar este horario?");
+            if (!confirmacion) {
+                event.preventDefault();
+            }
+        }
+    </script>
+    <div th:replace="layout/plantilla :: scripts"></div>
+</body>
+</html>
