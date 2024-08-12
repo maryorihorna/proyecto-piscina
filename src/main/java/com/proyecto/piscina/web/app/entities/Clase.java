@@ -18,8 +18,16 @@ public class Clase {
     @ManyToOne
     private Instructor instructor;
 
+    @Temporal(TemporalType.DATE)
+    @Column(name = "fecha", nullable = false)
     private Date fecha;
+
+    @Temporal(TemporalType.TIME)
+    @Column(name = "horaInicio", nullable = false)
     private Time horaInicio;
+
+    @Temporal(TemporalType.TIME)
+    @Column(name = "horaFin", nullable = false)
     private Time horaFin;
     
     public Clase() {

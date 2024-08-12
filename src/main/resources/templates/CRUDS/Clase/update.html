@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout/plantilla :: head"></head>
+<body>
+    <div class="wrapper">
+        <div th:replace="layout/plantilla :: header"></div>
+        <nav th:replace="layout/plantilla :: nav"></nav>
+        <div th:replace="layout/plantilla :: sidebar"></div>
+        <!-- Contenido principal -->
+        <div class="main-panel">
+			<div class="content">
+				<div class="page-inner">
+					<div class="page-header">
+                        <h4 class="page-title">Actualizar Clase</h4>
+                    </div>
+                </div>
+                <div>
+                    <form th:action="@{/clases/update/{id}(id=${clase.id})}" th:object="${clase}" method="post">
+                        <div>
+                            <label for="curso">Curso</label>
+                            <select th:field="*{curso.id_curso}" class="form-control" id="curso">
+                                <option th:each="curso : ${cursos}" 
+                                        th:value="${curso.id_curso}" 
+                                        th:text="${curso.nombre}"></option>
+                            </select>
+
+                            <label for="instructor">Instructor</label>
+                            <select th:field="*{instructor.idInstructor}" class="form-control" id="instructor">
+                                <option th:each="instructor : ${instructores}" 
+                                        th:value="${instructor.idInstructor}" 
+                                        th:text="${instructor.nombre}"></option>
+                            </select>
+
+                            <label for="fecha">Fecha</label>
+                            <input type="date" th:field="*{fecha}" class="form-control" id="fecha" placeholder="Fecha de la clase">
+
+                            <label for="horaInicio">Hora de Inicio</label>
+                            <input type="time" th:field="*{horaInicio}" class="form-control" id="horaInicio" placeholder="Hora de Inicio">
+                            
+                            <label for="horaFin">Hora de Fin</label>
+                            <input type="time" th:field="*{horaFin}" class="form-control" id="horaFin" placeholder="Hora de Fin">
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+   
+        <div th:replace="layout/plantilla :: color"></div>
+    </div>
+     
+    <div th:replace="layout/plantilla :: scripts"></div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout/plantilla :: head"></head>
+<body>
+    <div class="wrapper">
+        <div th:replace="layout/plantilla :: header"></div>
+        <nav th:replace="layout/plantilla :: nav"></nav>
+        <div th:replace="layout/plantilla :: sidebar"></div>
+        <!-- Contenido principal -->
+        <div class="main-panel">
+			<div class="content">
+				<div class="page-inner">
+					<div class="page-header">
+                        <h4 class="page-title">Clases</h4>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <a th:href="@{/clases/create}" class="btn btn-primary">Crear Clase</a>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Curso</th>
+                                <th>Instructor</th>
+                                <th>Fecha</th>
+                                <th>Hora Inicio</th>
+                                <th>Hora Fin</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="clase : ${clases}">
+                                <td th:text="${clase.id}"></td>
+                                <td th:text="${clase.curso.nombre}"></td>
+                                <td th:text="${clase.instructor.nombre}"></td>
+                                <td th:text="${#dates.format(clase.fecha, 'yyyy-MM-dd')}"></td>
+                                <td th:text="${clase.horaInicio}"></td>
+                                <td th:text="${clase.horaFin}"></td>
+                                <td>
+                                    <a th:href="@{/clases/edit/{id}(id=${clase.id})}" class="btn btn-sm btn-secondary">Editar</a>
+                                    <a th:href="@{/clases/delete/{id}(id=${clase.id})}" class="btn btn-sm btn-danger" onclick="confirmarEliminacion(event)">Eliminar</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+   
+        <div th:replace="layout/plantilla :: color"></div>
+    </div>
+    <script>
+        function confirmarEliminacion(event) {
+            var confirmacion = confirm("¿Estás seguro de que deseas eliminar esta clase?");
+            if (!confirmacion) {
+                event.preventDefault();
+            }
+        }
+    </script>   
+    <div th:replace="layout/plantilla :: scripts"></div>
+</body>
+</html>

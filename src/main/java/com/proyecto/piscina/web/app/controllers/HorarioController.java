@@ -3,7 +3,6 @@ package com.proyecto.piscina.web.app.controllers;
 import java.sql.Time;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -32,7 +31,6 @@ public class HorarioController {
         binder.registerCustomEditor(Time.class, new CustomTimeEditor("HH:mm", false));
     }
 
-    @Autowired
     public HorarioController(HorarioService horarioService, InstructorService instructorService) {
         this.horarioService = horarioService;
         this.instructorService = instructorService;

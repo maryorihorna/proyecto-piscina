@@ -6,7 +6,6 @@ import com.proyecto.piscina.web.app.entities.Usuario;
 import com.proyecto.piscina.web.app.respository.AdministradorRespository;
 import com.proyecto.piscina.web.app.respository.UsuarioRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +18,6 @@ public class AdministradorService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
     public AdministradorService(UsuarioRepository usuarioRepository, AdministradorRespository administradorRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.administradorRepository = administradorRepository;
