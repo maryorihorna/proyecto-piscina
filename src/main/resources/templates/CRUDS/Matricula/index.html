@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout/plantilla :: head">
+</head>
+<body>
+    <div class="wrapper">
+        <div th:replace="layout/plantilla :: header"></div>
+        <nav th:replace="layout/plantilla :: nav"></nav>
+        <div th:replace="layout/plantilla :: sidebar"></div>
+        <!-- Contenido principal -->
+        <div class="main-panel">
+			<div class="content">
+				<div class="page-inner">
+					<div class="page-header">
+                        <h4 class="page-title">Matrículas</h4>
+                    </div>
+                </div>
+                <div >
+                    <div>
+                        <a th:href="@{/matriculas/create}" class="btn btn-primary">Crear Matrícula</a>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Alumno</th>
+                                <th>Clase</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="matricula : ${matriculas}">
+                                <td th:text="${matricula.idMatricula}"></td>
+                                <td th:text="${matricula.alumno.nombre + ' ' + matricula.alumno.apellido}"></td>
+                                <td th:text="${matricula.clase.id}"></td>
+                                <td th:text="${matricula.fechaMatricula}"></td>
+                                <td th:text="${matricula.estado}"></td>
+                                <td>
+                                    <a th:href="@{/matriculas/edit/{id}(id=${matricula.idMatricula})}" class="btn btn-sm btn-secondary">Editar</a>
+                                    <a th:href="@{/matriculas/delete/{id}(id=${matricula.idMatricula})}" class="btn btn-sm btn-danger" onclick="confirmarEliminacion(event)">Eliminar</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+   
+        <div th:replace="layout/plantilla :: color" ></div>
+    </div>
+    <script>
+        function confirmarEliminacion(event) {
+            // Confirmar antes de eliminar
+            var confirmacion = confirm("¿Estás seguro de que deseas eliminar esta matrícula?");
+            if (!confirmacion) {
+                // Si el usuario hace clic en "Cancelar", evita seguir el enlace
+                event.preventDefault();
+            }
+        }
+    </script>    
+    <div th:replace="layout/plantilla :: scripts"></div>
+</body>
+</html>

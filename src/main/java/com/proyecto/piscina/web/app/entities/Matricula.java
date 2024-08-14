@@ -32,7 +32,6 @@ public class Matricula {
 
 
 	public Matricula(Long idMatricula, Alumno alumno, Clase clase, Date fechaMatricula, String estado) {
-		super();
 		this.idMatricula = idMatricula;
 		this.alumno = alumno;
 		this.clase = clase;

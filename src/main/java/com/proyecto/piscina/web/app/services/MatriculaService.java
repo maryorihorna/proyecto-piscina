@@ -2,6 +2,7 @@ package com.proyecto.piscina.web.app.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import com.proyecto.piscina.web.app.respository.*;
 
 @Service
 public class MatriculaService {
-	 @Autowired
+	 	@Autowired
 	    private MatriculaRepository matriculaRepository;
 
 	    @Autowired
@@ -30,24 +31,16 @@ public class MatriculaService {
 	    }
 
 	    public Matricula saveMatricula(Matricula matricula) {
-	        // Verificar si existe el Alumno
 	        Alumno alumno = alumnoRepository.findById(matricula.getAlumno().getIdalumno())
 	                .orElseThrow(() -> new IllegalStateException("Alumno no encontrado con ID: " + matricula.getAlumno().getIdalumno()));
-
-	        // Verificar si existe la Clase
 	        Clase clase = claseRepository.findById(matricula.getClase().getId())
 	                .orElseThrow(() -> new IllegalStateException("Clase no encontrada con ID: " + matricula.getClase().getId()));
 
-	        // Asignar Alumno y Clase validados
 	        matricula.setAlumno(alumno);
 	        matricula.setClase(clase);
 
-	        // Establecer fecha actual si no se proporciona
-	        if (matricula.getFechaMatricula() == null) {
-	            matricula.setFechaMatricula(new Date());
-	        }
-
-	        // Guardar la Matricula
+	        // Establecer fecha actual
+			matricula.setFechaMatricula(new Date());
 	        return matriculaRepository.save(matricula);
 	    }
 
@@ -64,11 +57,15 @@ public class MatriculaService {
 
 	        existingMatricula.setAlumno(updatedMatricula.getAlumno());
 	        existingMatricula.setClase(updatedMatricula.getClase());
-	        existingMatricula.setFechaMatricula(updatedMatricula.getFechaMatricula());
+	        existingMatricula.setFechaMatricula(new Date());
 	        existingMatricula.setEstado(updatedMatricula.getEstado());
 
 	        return matriculaRepository.save(existingMatricula);
 	    }
+
+		public Optional<Matricula> getMatricula(long id) {
+			return matriculaRepository.findById(id);
+		}
 	
 	
 }
