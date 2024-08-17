@@ -1,9 +1,10 @@
 package com.proyecto.piscina.web.app.services;
 
 import java.util.Collection;
-import java.util.Collections;
-
+import java.util.stream.Collectors;
+import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.proyecto.piscina.web.app.entities.Usuario;
@@ -18,7 +19,10 @@ public class UsuarioPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        Set<GrantedAuthority> authorities = usuario.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toSet());
+        return authorities;
     }
 
     @Override

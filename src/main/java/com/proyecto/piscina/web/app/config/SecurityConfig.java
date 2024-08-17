@@ -17,8 +17,13 @@ import com.proyecto.piscina.web.app.services.MyUserDetailsService;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final CustomAuthenticationSuccessHandler successHandler;
+
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
+    public SecurityConfig(CustomAuthenticationSuccessHandler successHandler) {
+        this.successHandler = successHandler;
+    }
 
     
     @Bean
@@ -51,7 +56,7 @@ public class SecurityConfig {
             )
             .formLogin((form) -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/", true)
+                .successHandler(successHandler) // Usa el AuthenticationSuccessHandler personalizado
                 .failureUrl("/login?error=true")
                 .permitAll()
             )

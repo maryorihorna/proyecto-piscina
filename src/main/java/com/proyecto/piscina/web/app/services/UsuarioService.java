@@ -4,20 +4,26 @@ import org.springframework.stereotype.Service;
 import com.proyecto.piscina.web.app.entities.Usuario;
 import com.proyecto.piscina.web.app.respository.UsuarioRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    
     public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 
     public Usuario saveUsuario(Usuario usuario) {
+        // Asignar el rol USER por defecto
+        Set<String> roles = usuario.getRoles();
+        if (roles == null || roles.isEmpty()) {
+            usuario.setRoles(Collections.singleton("USER")); // Asignar el rol USER por defecto
+        }
         return usuarioRepository.save(usuario);
     }
 
@@ -40,7 +46,7 @@ public class UsuarioService {
     public void deleteUsuario(Long id) {
         boolean existe = usuarioRepository.existsById(id);
         if (!existe) {
-            throw new IllegalStateException("El usuario con id " + id + " no existe");
+            throw new IllegalStateException("El usuario con id " + id + "no existe");
         }
         usuarioRepository.deleteById(id);
     }
