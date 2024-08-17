@@ -1,11 +1,14 @@
 package com.proyecto.piscina.web.app.services;
 
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,15 +90,31 @@ public class MatriculaService {
 			return matriculaRepository.findByEstado(estado);
 		}
 
-		public Map<String, Long> contarMatriculasPorMes() {
-			List<Matricula> matriculas = matriculaRepository.findAll();
-			
-			return matriculas.stream()
-				.collect(Collectors.groupingBy(matricula -> {
-					Calendar calendar = Calendar.getInstance();
-					calendar.setTime(matricula.getFechaMatricula());
-					return calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()) + " " + calendar.get(Calendar.YEAR);
-				}, Collectors.counting()));
-		}
+public Map<String, Long> contarMatriculasPorMes() {
+    List<Matricula> matriculas = matriculaRepository.findAll();
+
+    // Utiliza un TreeMap para garantizar el orden cronológico basado en la clave entera
+    Map<Integer, Long> matriculasPorMes = matriculas.stream()
+        .collect(Collectors.groupingBy(matricula -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(matricula.getFechaMatricula());
+            int month = calendar.get(Calendar.MONTH) + 1; // Los meses en Calendar van de 0 a 11
+            int year = calendar.get(Calendar.YEAR);
+            return year * 100 + month; // Esto nos da una clave numérica como 202401 para enero de 2024
+        }, TreeMap::new, Collectors.counting()));
+
+    // Convertimos las claves numéricas de nuevo a "MMM-yyyy"
+    Map<String, Long> resultadoFinal = new LinkedHashMap<>();
+    matriculasPorMes.forEach((key, value) -> {
+        int year = key / 100;
+        int month = key % 100;
+        String monthName = new DateFormatSymbols(new Locale("es", "ES")).getShortMonths()[month - 1];
+        String formattedDate = String.format("%s-%d", monthName.substring(0, 1).toUpperCase() + monthName.substring(1), year);
+        resultadoFinal.put(formattedDate, value);
+    });
+
+    return resultadoFinal;
+}
+		
 	
 }

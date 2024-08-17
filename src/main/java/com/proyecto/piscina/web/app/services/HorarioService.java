@@ -1,5 +1,6 @@
 package com.proyecto.piscina.web.app.services;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -68,9 +69,29 @@ public class HorarioService {
         return horarioRepository.findById(id);
     }
 
-    public Map<String, Long> contarHorariosPorDia() {
-        List<Horario> horarios = horarioRepository.findAll();
-        return horarios.stream()
-                .collect(Collectors.groupingBy(Horario::getDia_semana, Collectors.counting()));
-    }
+public Map<String, Long> contarHorariosPorDia() {
+    List<Horario> horarios = horarioRepository.findAll();
+
+    // Mapa para definir el orden de los días de la semana
+    Map<String, Integer> ordenDiasSemana = new LinkedHashMap<>();
+    ordenDiasSemana.put("Lunes", 1);
+    ordenDiasSemana.put("Martes", 2);
+    ordenDiasSemana.put("Miércoles", 3);
+    ordenDiasSemana.put("Jueves", 4);
+    ordenDiasSemana.put("Viernes", 5);
+    ordenDiasSemana.put("Sábado", 6);
+    ordenDiasSemana.put("Domingo", 7);
+
+    // Contar la cantidad de horarios por día de la semana
+    Map<String, Long> horariosPorDia = horarios.stream()
+            .collect(Collectors.groupingBy(Horario::getDia_semana, Collectors.counting()));
+
+    // Ordenar el mapa resultante según el orden de los días de la semana
+    Map<String, Long> horariosPorDiaOrdenados = new LinkedHashMap<>();
+    ordenDiasSemana.entrySet().stream()
+            .filter(entry -> horariosPorDia.containsKey(entry.getKey()))
+            .forEachOrdered(entry -> horariosPorDiaOrdenados.put(entry.getKey(), horariosPorDia.get(entry.getKey())));
+
+    return horariosPorDiaOrdenados;
+}
 }
