@@ -13,59 +13,169 @@
         <div class="main-panel">
 			<div class="content">
 				<div class="page-inner">
-					<div class="page-header">
-                        <h4 class="page-title">Curso</h4>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <h4 class="card-title">Cursos</h4>
+                                    <a th:href="@{/cursos/create}" class="btn btn-primary btn-round ml-auto">
+                                        <i class="fa fa-plus"></i>
+                                        Crear Curso
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="add-row" class="display table table-striped table-hover" >
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Nombre</th>
+                                                <th>Descripción</th>
+                                                <th>Nivel</th>
+                                                <th>Cupo Máximo</th>
+                                                <th>Fecha Inicio</th>
+                                                <th>Fecha Fin</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Nombre</th>
+                                                <th>Descripción</th>
+                                                <th>Nivel</th>
+                                                <th>Cupo Máximo</th>
+                                                <th>Fecha Inicio</th>
+                                                <th>Fecha Fin</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            <tr th:each="curso : ${cursos}">
+                                                <td th:text="${curso.id_curso}"></td>
+                                                <td th:text="${curso.nombre}"></td>
+                                                <td th:text="${curso.descripcion}"></td>
+                                                <td th:text="${curso.nivel}"></td>
+                                                <td th:text="${curso.cupo_maximo}"></td>
+                                                <td th:text="${curso.fecha_inicio}"></td>
+                                                <td th:text="${curso.fecha_fin}"></td>
+                                                <td>
+                                                    <div class="form-button-action"></div>
+                                                        <a th:href="@{/cursos/edit/{id}(id=${curso.id_curso})}" class="btn btn-link btn-primary btn-lg">
+                                                            <i class="fa fa-edit"></i>    
+                                                        </a>
+                                                        <a href="#" class="btn btn-link btn-danger" data-toggle="modal" data-target="#confirmDeleteModal" th:data-id="${curso.id_curso}">
+                                                            <i class="fa fa-times"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Modal de confirmación de eliminación -->
+                                <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header no-bd">
+                                                <h5 class="modal-title">
+                                                    <span class="fw-mediumbold">Confirmar</span> 
+                                                    <span class="fw-light">Eliminación</span>
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="small">¿Estás seguro de que deseas eliminar este curso?</p>
+                                            </div>
+                                            <div class="modal-footer no-bd">
+                                                <a id="confirmDeleteButton" class="btn btn-primary" href="#">Eliminar</a>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div >
-                    <div>
-                        <a th:href="@{/cursos/create}" class="btn btn-primary">Crear Curso</a>
-                    </div>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th>Nivel</th>
-                                <th>Cupo Máximo</th>
-                                <th>Fecha Inicio</th>
-                                <th>Fecha Fin</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="curso : ${cursos}">
-                                <td th:text="${curso.id_curso}"></td>
-                                <td th:text="${curso.nombre}"></td>
-                                <td th:text="${curso.descripcion}"></td>
-                                <td th:text="${curso.nivel}"></td>
-                                <td th:text="${curso.cupo_maximo}"></td>
-                                <td th:text="${curso.fecha_inicio}"></td>
-                                <td th:text="${curso.fecha_fin}"></td>
-                                <td>
-                                    <a th:href="@{/cursos/edit/{id}(id=${curso.id_curso})}" class="btn btn-sm btn-secondary">Editar</a>
-                                    <a th:href="@{/cursos/delete/{id}(id=${curso.id_curso})}" class="btn btn-sm btn-danger" onclick="confirmarEliminacion(event)">Eliminar</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                </div>   
             </div>
         </div>
-   
-        <div th:replace="layout/plantilla :: color" ></div>
     </div>
-    <script>
-        function confirmarEliminacion(event) {
-            // Confirmar antes de eliminar
-            var confirmacion = confirm("¿Estás seguro de que deseas eliminar este curso?");
-            if (!confirmacion) {
-                // Si el usuario hace clic en "Cancelar", evita seguir el enlace
-                event.preventDefault();
-            }
-        }
-    </script>   
+
     <div th:replace="layout/plantilla :: scripts"></div>
+
+    <script>
+        $('#confirmDeleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Botón que activó el modal
+            var cursoId = button.data('id'); // Extrae el ID del curso
+    
+            // Verifica que cursoId es un número válido
+            if (isNaN(cursoId)) {
+                console.error('ID del curso no válido:', cursoId);
+                return;
+            }
+    
+            // Construye la URL completa para eliminar
+            var deleteUrl = '/cursos/delete/' + cursoId;
+    
+            // Asigna la URL al botón de confirmación en el modal
+            $(this).find('#confirmDeleteButton').attr('href', deleteUrl);
+        });
+    </script>
+    
+    
+    
+
+    <script>
+		$(document).ready(function() {
+			$('#basic-datatables').DataTable({
+			});
+
+			$('#multi-filter-select').DataTable( {
+				"pageLength": 5,
+				initComplete: function () {
+					this.api().columns().every( function () {
+						var column = this;
+						var select = $('<select class="form-control"><option value=""></option></select>')
+						.appendTo( $(column.footer()).empty() )
+						.on( 'change', function () {
+							var val = $.fn.dataTable.util.escapeRegex(
+								$(this).val()
+								);
+
+							column
+							.search( val ? '^'+val+'$' : '', true, false )
+							.draw();
+						} );
+
+						column.data().unique().sort().each( function ( d, j ) {
+							select.append( '<option value="'+d+'">'+d+'</option>' )
+						} );
+					} );
+				}
+			});
+
+			// Add Row
+			$('#add-row').DataTable({
+				"pageLength": 5,
+			});
+
+			var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+			$('#addRowButton').click(function() {
+				$('#add-row').dataTable().fnAddData([
+					$("#addName").val(),
+					$("#addPosition").val(),
+					$("#addOffice").val(),
+					action
+					]);
+				$('#addRowModal').modal('hide');
+
+			});
+		});
+	</script>
 </body>
 </html>

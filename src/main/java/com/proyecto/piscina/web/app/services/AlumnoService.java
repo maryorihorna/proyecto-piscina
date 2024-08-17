@@ -68,5 +68,8 @@ public class AlumnoService {
         return alumnoRepository.findById(id);
     }
     
+    public long contarAlumnos() {
+        return alumnoRepository.count();
+    }
 
 }

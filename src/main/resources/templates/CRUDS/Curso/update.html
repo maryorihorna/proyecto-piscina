@@ -11,44 +11,124 @@
         <div th:replace="layout/plantilla :: sidebar"></div>
         <!-- Contenido principal -->
         <div class="main-panel">
-			<div class="content">
-				<div class="page-inner">
-					<div class="page-header">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header">
                         <h4 class="page-title">Actualizar Curso</h4>
                     </div>
-                </div>
-                <div >
-                    <form th:action="@{/cursos/update/{id}(id=${curso.id_curso})}" th:object="${curso}" method="post">
-                        <div>
-                            <label for="nombre">Nombre</label>
-                            <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre del curso">
-                
-                            <label for="descripcion">Descripción</label>
-                            <input type="text" th:field="*{descripcion}" class="form-control" id="descripcion" placeholder="Descripción">
-                
-                            <label for="nivel">Nivel</label>
-                            <input type="text" th:field="*{nivel}" class="form-control" id="nivel" placeholder="Nivel">
-                
-                            <label for="cupo_maximo">Cupo Máximo</label>
-                            <input type="number" th:field="*{cupo_maximo}" class="form-control" id="cupo_maximo" placeholder="Cupo Máximo">
-
-                            <label for="fecha_inicio">Fecha de Inicio</label>
-                            <input type="date" th:field="*{fecha_inicio}" class="form-control" id="fecha_inicio" placeholder="Fecha de Inicio">
-                            
-                            <label for="fecha_fin">Fecha de Fin</label>
-                            <input type="date" th:field="*{fecha_fin}" class="form-control" id="fecha_fin" placeholder="Fecha de Fin">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form th:action="@{/cursos/update/{id}(id=${curso.id_curso})}" th:object="${curso}" method="post" onsubmit="return validateForm()">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="nombre">Nombre</label>
+                                                    <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre del curso" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="descripcion">Descripción</label>
+                                                    <input type="text" th:field="*{descripcion}" class="form-control" id="descripcion" placeholder="Descripción" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fecha_inicio">Fecha de Inicio</label>
+                                                    <input type="date" th:field="*{fecha_inicio}" class="form-control" id="fecha_inicio" onchange="updateEndDateMin()" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="nivel">Nivel</label>
+                                                    <select th:field="*{nivel}" class="form-control" id="nivel" required>
+                                                        <option value="" disabled>Seleccionar nivel</option>
+                                                        <option value="Principiante" th:selected="${curso.nivel == 'Principiante'}">Principiante</option>
+                                                        <option value="Intermedio" th:selected="${curso.nivel == 'Intermedio'}">Intermedio</option>
+                                                        <option value="Avanzado" th:selected="${curso.nivel == 'Avanzado'}">Avanzado</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="cupo_maximo">Cupo Máximo</label>
+                                                    <input type="number" th:field="*{cupo_maximo}" class="form-control" id="cupo_maximo" placeholder="Cupo Máximo" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fecha_fin">Fecha de Fin</label>
+                                                    <input type="date" th:field="*{fecha_fin}" class="form-control" id="fecha_fin">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-action">
+                                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                                        <a href="/cursos" class="btn btn-danger">Cancelar</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary">Actualizar</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-   
-        <div th:replace="layout/plantilla :: color" ></div>
+        <div th:replace="layout/plantilla :: color"></div>
     </div>
-     
     <div th:replace="layout/plantilla :: scripts"></div>
+
+    <script>
+        function updateEndDateMin() {
+            var startDate = document.getElementById('fecha_inicio').value;
+            var endDateInput = document.getElementById('fecha_fin');
+            var originalEndDate = endDateInput.getAttribute('data-original-end-date');
+
+            if (startDate) {
+                // Convert the start date to a Date object and format it to YYYY-MM-DD
+                var startDateObj = new Date(startDate);
+                var startDateString = startDateObj.toISOString().split('T')[0];
+                
+                endDateInput.setAttribute('min', startDateString);
+                endDateInput.disabled = false;
+                
+                // If original end date is empty, keep the current end date
+                if (!originalEndDate) {
+                    endDateInput.value = '';
+                }
+            } else {
+                endDateInput.setAttribute('min', '');
+                endDateInput.disabled = true;
+                endDateInput.removeAttribute('required');
+            }
+        }
+
+        function validateForm() {
+            var startDate = document.getElementById('fecha_inicio').value;
+            var endDate = document.getElementById('fecha_fin').value;
+            var currentDate = new Date().toISOString().split('T')[0];
+            var startDateObj = new Date(startDate);
+            var endDateObj = new Date(endDate);
+            var originalEndDate = document.getElementById('fecha_fin').getAttribute('data-original-end-date');
+
+            if (startDate && startDate <= currentDate) {
+                alert('La fecha de inicio debe ser mayor a la fecha actual.');
+                return false;
+            }
+
+            if (startDate && endDate && endDate <= startDateObj) {
+                alert('La fecha de fin debe ser mayor a la fecha de inicio.');
+                return false;
+            }
+
+            if (startDate && !endDate && !originalEndDate) {
+                alert('Por favor, ingrese una fecha de fin.');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Initialize original end date value on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            var endDateInput = document.getElementById('fecha_fin');
+            endDateInput.setAttribute('data-original-end-date', endDateInput.value);
+            updateEndDateMin();
+        });
+    </script>
 </body>
 </html>

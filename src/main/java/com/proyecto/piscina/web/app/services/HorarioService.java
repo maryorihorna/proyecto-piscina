@@ -1,12 +1,16 @@
 package com.proyecto.piscina.web.app.services;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
-import com.proyecto.piscina.web.app.entities.*;
-import com.proyecto.piscina.web.app.respository.*;
-
-import java.util.List;
-import java.util.Optional;
+import com.proyecto.piscina.web.app.entities.Horario;
+import com.proyecto.piscina.web.app.entities.Instructor;
+import com.proyecto.piscina.web.app.respository.HorarioRepository;
+import com.proyecto.piscina.web.app.respository.InstructorRepository;
 
 @Service
 public class HorarioService {
@@ -62,5 +66,11 @@ public class HorarioService {
 
     public Optional<Horario> getHorario(long id) {
         return horarioRepository.findById(id);
+    }
+
+    public Map<String, Long> contarHorariosPorDia() {
+        List<Horario> horarios = horarioRepository.findAll();
+        return horarios.stream()
+                .collect(Collectors.groupingBy(Horario::getDia_semana, Collectors.counting()));
     }
 }

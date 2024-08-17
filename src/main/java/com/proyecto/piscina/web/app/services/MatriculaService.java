@@ -1,14 +1,22 @@
 package com.proyecto.piscina.web.app.services;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.proyecto.piscina.web.app.entities.*;
-import com.proyecto.piscina.web.app.respository.*;
+import com.proyecto.piscina.web.app.entities.Alumno;
+import com.proyecto.piscina.web.app.entities.Clase;
+import com.proyecto.piscina.web.app.entities.Matricula;
+import com.proyecto.piscina.web.app.respository.AlumnoRepository;
+import com.proyecto.piscina.web.app.respository.ClaseRepository;
+import com.proyecto.piscina.web.app.respository.MatriculaRepository;
 
 @Service
 public class MatriculaService {
@@ -66,6 +74,28 @@ public class MatriculaService {
 		public Optional<Matricula> getMatricula(long id) {
 			return matriculaRepository.findById(id);
 		}
+
+		public float calcularPorcentajePagado() {
+			long totalMatriculas = matriculaRepository.count();
+			if (totalMatriculas == 0) return 0; // Evita división por cero
 	
+			long pagadas = matriculaRepository.countByEstado("Pagado");
+			return (pagadas * 100.0f) / totalMatriculas;
+		}
+	
+		public List<Matricula> findByEstado(String estado) {
+			return matriculaRepository.findByEstado(estado);
+		}
+
+		public Map<String, Long> contarMatriculasPorMes() {
+			List<Matricula> matriculas = matriculaRepository.findAll();
+			
+			return matriculas.stream()
+				.collect(Collectors.groupingBy(matricula -> {
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(matricula.getFechaMatricula());
+					return calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()) + " " + calendar.get(Calendar.YEAR);
+				}, Collectors.counting()));
+		}
 	
 }

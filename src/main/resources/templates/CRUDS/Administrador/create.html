@@ -16,32 +16,50 @@
 					<div class="page-header">
                         <h4 class="page-title">Crear Administrador</h4>
                     </div>
-                </div>
-                <div >
-                    <form th:action="@{/administradores}" th:object="${administrador}" method="post">
-                        <div>
-                            <label for="nombre">Nombre</label>
-                            <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre">
-                
-                            <label for="apellido">Apellido</label>
-                            <input type="text" th:field="*{apellido}" class="form-control" id="apellido" placeholder="Apellido">
-                
-                            <label for="email">Email</label>
-                            <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Email">
-                
-                            <label for="telefono">Telefono</label>
-                            <input type="text" th:field="*{telefono}" class="form-control" id="telefono" placeholder="Telefono">
-                
-                            <label for="username">Usuario</label>
-                            <input type="text" th:field="*{usuario.username}" class="form-control" id="username" placeholder="Usuario">
-                
-                            <label for="password">Contraseña</label>
-                            <input type="password" th:field="*{usuario.password}" class="form-control" id="password" placeholder="Contraseña">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form th:action="@{/administradores}" th:object="${administrador}" method="post">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="nombre">Nombre</label>
+                                                    <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="apellido">Apellido</label>
+                                                    <input type="text" th:field="*{apellido}" class="form-control" id="apellido" placeholder="Apellido">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email">Email</label>
+                                                    <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Email">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="telefono">Teléfono</label>
+                                                    <input type="text" th:field="*{telefono}" class="form-control" id="telefono" placeholder="Teléfono">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="username">Usuario</label>
+                                                    <input type="text" th:field="*{usuario.username}" class="form-control" id="username" placeholder="Usuario">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="password">Contraseña</label>
+                                                    <input type="password" th:field="*{usuario.password}" class="form-control" id="password" placeholder="Contraseña">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-action">
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <a href="/administradores" class="btn btn-danger">Cancelar</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,3 +70,32 @@
     <div th:replace="layout/plantilla :: scripts"></div>
 </body>
 </html>
+
+
+<!-- <div class="form-check">
+    <label>Gender</label><br/>
+    <label class="form-radio-label">
+        <input class="form-radio-input" type="radio" name="optionsRadios" value=""  checked="">
+        <span class="form-radio-sign">Male</span>
+    </label>
+    <label class="form-radio-label ml-3">
+        <input class="form-radio-input" type="radio" name="optionsRadios" value="">
+        <span class="form-radio-sign">Female</span>
+    </label>
+    <div class="form-group">
+		<label class="control-label">
+			Static
+		</label> 
+		<p class="form-control-static">hello@example.com</p> 
+	</div>
+    <div class="form-group">
+		<label for="exampleFormControlSelect1">Example select</label>
+		<select class="form-control" id="exampleFormControlSelect1">
+			<option>1</option>
+			<option>2</option>
+			<option>3</option>
+			<option>4</option>
+			<option>5</option>
+		</select>
+	</div>
+</div> -->

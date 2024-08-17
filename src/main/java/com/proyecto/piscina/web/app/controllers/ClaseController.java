@@ -89,6 +89,7 @@ public class ClaseController {
         return "redirect:/clases";
     }
 
+    @GetMapping("/delete/{id}")
     public String deleteClase(@PathVariable("id") long id) {
         claseService.deleteClase(id);
         return "redirect:/clases";

@@ -16,36 +16,87 @@
                     <div class="page-header">
                         <h4 class="page-title">Crear Horario</h4>
                     </div>
-                </div>
-                <div>
-                    <form th:action="@{/horarios}" th:object="${horario}" method="post">
-                        <div>
-                            <label for="instructor">Instructor</label>
-                            <select th:field="*{instructor.idInstructor}" class="form-control" id="instructor">
-                                <option value="" disabled selected>Selecciona un Instructor</option>
-                                <option th:each="instructor : ${instructores}" 
-                                        th:value="${instructor.idInstructor}" 
-                                        th:text="${instructor.nombre}"></option>
-                            </select>
-
-                            <label for="dia_semana">Día de la Semana</label>
-                            <input type="text" th:field="*{dia_semana}" class="form-control" id="dia_semana" placeholder="Día de la Semana">
-
-                            <label for="hora_inicio">Hora de Inicio</label>
-                            <input type="time" th:field="*{hora_inicio}" class="form-control" id="hora_inicio">
-
-                            <label for="hora_fin">Hora de Fin</label>
-                            <input type="time" th:field="*{hora_fin}" class="form-control" id="hora_fin">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form th:action="@{/horarios}" th:object="${horario}" method="post" onsubmit="return validateTimes()">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="instructor">Instructor</label>
+                                                    <select th:field="*{instructor.idInstructor}" class="form-control" id="instructor" required>
+                                                        <option value="" disabled selected>Selecciona un Instructor</option>
+                                                        <option th:each="instructor : ${instructores}" 
+                                                                th:value="${instructor.idInstructor}" 
+                                                                th:text="${instructor.nombre}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="hora_inicio">Hora de Inicio</label>
+                                                    <input type="time" th:field="*{hora_inicio}" class="form-control" id="hora_inicio" onchange="updateEndTimeMin()" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="dia_semana">Día de la Semana</label>
+                                                    <select th:field="*{dia_semana}" class="form-control" id="dia_semana" required>
+                                                        <option value="" disabled selected>Selecciona un Día</option>
+                                                        <option value="Lunes">Lunes</option>
+                                                        <option value="Martes">Martes</option>
+                                                        <option value="Miércoles">Miércoles</option>
+                                                        <option value="Jueves">Jueves</option>
+                                                        <option value="Viernes">Viernes</option>
+                                                        <option value="Sábado">Sábado</option>
+                                                        <option value="Domingo">Domingo</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="hora_fin">Hora de Fin</label>
+                                                    <input type="time" th:field="*{hora_fin}" class="form-control" id="hora_fin" disabled required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-action">
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <a href="/horarios" class="btn btn-danger">Cancelar</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-        <div th:replace="layout/plantilla :: color" ></div>
+        <div th:replace="layout/plantilla :: color"></div>
     </div>
     <div th:replace="layout/plantilla :: scripts"></div>
+
+    <script>
+        function updateEndTimeMin() {
+            var startTime = document.getElementById('hora_inicio').value;
+            var endTimeInput = document.getElementById('hora_fin');
+
+            if (startTime) {
+                endTimeInput.disabled = false;
+                endTimeInput.setAttribute('min', startTime);
+            } else {
+                endTimeInput.disabled = true;
+                endTimeInput.setAttribute('min', '');
+            }
+        }
+
+        function validateTimes() {
+            var startTime = document.getElementById('hora_inicio').value;
+            var endTime = document.getElementById('hora_fin').value;
+
+            if (endTime <= startTime) {
+                alert('La hora de fin debe ser mayor que la hora de inicio.');
+                return false;
+            }
+            return true;
+        }
+    </script>
 </body>
 </html>
