@@ -18,8 +18,8 @@ Circles.create({
 //Notify
 $.notify({
 	icon: 'flaticon-alarm-1',
-	title: 'Azzara',
-	message: 'Premium Bootstrap 4 Admin Dashboard',
+	title: 'PISCINA POSEIDON',
+	message: 'BIENVENIDO ALUMNO A LA PISCINA POSEIDON',
 },{
 	type: 'info',
 	placement: {

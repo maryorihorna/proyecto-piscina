@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulario de Matrícula</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Crear Matrícula</h2>
+        <form th:action="@{/alumno/matricula}" th:object="${matricula}" method="post">
+            <div class="form-group">
+                <label for="alumno">Alumno</label>
+                <input type="text" th:field="*{alumno.nombre}" class="form-control" id="alumno" readonly>
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado</label>
+                <select th:field="*{estado}" class="form-control" id="estado">
+                    <option value="" disabled selected>Selecciona un Estado</option>
+                    <option value="Pagado">Pagado</option>
+                    <option value="No pagado">No pagado</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="fecha_matricula">Fecha de Matrícula</label>
+                <input type="date" th:field="*{fecha_matricula}" class="form-control" id="fecha_matricula">
+            </div>
+            <div class="form-group">
+                <label for="clase">Clase</label>
+                <select th:field="*{clase.id}" class="form-control" id="clase">
+                    <option value="0" disabled selected>Selecciona una Clase</option>
+                    <option th:each="clase : ${clases}" 
+                            th:value="${clase.id}" 
+                            th:text="${clase.curso.nombre}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="reset" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
