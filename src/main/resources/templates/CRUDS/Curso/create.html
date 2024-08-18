@@ -1,9 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head th:replace="layout/plantilla :: head">
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout/plantilla :: head"></head>
 <body>
     <div class="wrapper">
         <div th:replace="layout/plantilla :: header"></div>
@@ -11,44 +8,110 @@
         <div th:replace="layout/plantilla :: sidebar"></div>
         <!-- Contenido principal -->
         <div class="main-panel">
-			<div class="content">
-				<div class="page-inner">
-					<div class="page-header">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header">
                         <h4 class="page-title">Crear Curso</h4>
                     </div>
-                </div>
-                <div >
-                    <form th:action="@{/cursos}" th:object="${curso}" method="post">
-                        <div>
-                            <label for="nombre">Nombre</label>
-                            <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre del curso">
-                
-                            <label for="descripcion">Descripción</label>
-                            <input type="text" th:field="*{descripcion}" class="form-control" id="descripcion" placeholder="Descripción">
-                
-                            <label for="nivel">Nivel</label>
-                            <input type="text" th:field="*{nivel}" class="form-control" id="nivel" placeholder="Nivel">
-                
-                            <label for="cupo_maximo">Cupo Máximo</label>
-                            <input type="number" th:field="*{cupo_maximo}" class="form-control" id="cupo_maximo" placeholder="Cupo Máximo">
-
-                            <label for="fecha_inicio">Fecha de Inicio</label>
-                            <input type="date" th:field="*{fecha_inicio}" class="form-control" id="fecha_inicio" placeholder="Fecha de Inicio">
-                            
-                            <label for="fecha_fin">Fecha de Fin</label>
-                            <input type="date" th:field="*{fecha_fin}" class="form-control" id="fecha_fin" placeholder="Fecha de Fin">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form th:action="@{/cursos}" th:object="${curso}" method="post" onsubmit="return validateForm()">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="nombre">Nombre</label>
+                                                    <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre del curso" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="descripcion">Descripción</label>
+                                                    <input type="text" th:field="*{descripcion}" class="form-control" id="descripcion" placeholder="Descripción" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fecha_inicio">Fecha de Inicio</label>
+                                                    <input type="date" th:field="*{fecha_inicio}" class="form-control" id="fecha_inicio" onchange="updateEndDateMin()" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="nivel">Nivel</label>
+                                                    <select th:field="*{nivel}" class="form-control" id="nivel" required>
+                                                        <option value="" disabled selected>Seleccionar nivel</option>
+                                                        <option value="Principiante">Principiante</option>
+                                                        <option value="Intermedio">Intermedio</option>
+                                                        <option value="Avanzado">Avanzado</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="cupo_maximo">Cupo Máximo</label>
+                                                    <input type="number" th:field="*{cupo_maximo}" class="form-control" id="cupo_maximo" placeholder="Cupo Máximo" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fecha_fin">Fecha de Fin</label>
+                                                    <input type="date" th:field="*{fecha_fin}" class="form-control" id="fecha_fin" disabled required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-action">
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <a href="/cursos" class="btn btn-danger">Cancelar</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-   
-        <div th:replace="layout/plantilla :: color" ></div>
+        <div th:replace="layout/plantilla :: color"></div>
     </div>
-     
     <div th:replace="layout/plantilla :: scripts"></div>
+
+    <script>
+        function updateEndDateMin() {
+            var startDate = document.getElementById('fecha_inicio').value;
+            var endDateInput = document.getElementById('fecha_fin');
+
+            if (startDate) {
+                var startDateObj = new Date(startDate);
+                var startDateString = startDateObj.toISOString().split('T')[0];
+                
+                endDateInput.setAttribute('min', startDateString);
+                endDateInput.disabled = false;
+            } else {
+                endDateInput.setAttribute('min', '');
+                endDateInput.disabled = true;
+            }
+        }
+
+        function validateForm() {
+            var startDateInput = document.getElementById('fecha_inicio');
+            var endDateInput = document.getElementById('fecha_fin');
+            var startDate = new Date(startDateInput.value);
+            var endDate = new Date(endDateInput.value);
+            var currentDate = new Date();
+
+            // Convert current date to YYYY-MM-DD format for comparison
+            var currentDateString = currentDate.toISOString().split('T')[0];
+
+            // Validate start date
+            if (startDateInput.value === "" || startDate <= new Date(currentDateString)) {
+                alert('La fecha de inicio debe ser mayor a la fecha actual.');
+                return false;
+            }
+
+            // Validate end date if provided
+            if (!isNaN(endDate.getTime())) {
+                if (endDate <= startDate) {
+                    alert('La fecha de fin debe ser mayor a la fecha de inicio.');
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    </script>
 </body>
 </html>

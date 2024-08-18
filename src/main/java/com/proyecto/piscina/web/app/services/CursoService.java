@@ -1,12 +1,14 @@
 package com.proyecto.piscina.web.app.services;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.proyecto.piscina.web.app.entities.Curso;
 import com.proyecto.piscina.web.app.respository.CursoRepository;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CursoService {
@@ -54,4 +56,26 @@ public class CursoService {
 	        return cursoRepository.findById(id);
 	    }
 		
+
+		public long contarCursos() {
+			return cursoRepository.count();
+		}
+
+		public Map<String, Long> contarCursosPorNivel() {
+			List<Curso> cursos = cursoRepository.findAll();
+			Map<String, Long> conteoPorNivel = new HashMap<>();
+
+			// Inicializar el mapa con los niveles posibles
+			conteoPorNivel.put("Principiante", 0L);
+			conteoPorNivel.put("Intermedio", 0L);
+			conteoPorNivel.put("Avanzado", 0L);
+
+			// Contar cursos por nivel
+			for (Curso curso : cursos) {
+				String nivel = curso.getNivel();
+				conteoPorNivel.put(nivel, conteoPorNivel.getOrDefault(nivel, 0L) + 1);
+			}
+
+			return conteoPorNivel;
+		}
 }

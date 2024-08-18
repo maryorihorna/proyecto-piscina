@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.proyecto.piscina.web.app.entities.Alumno;
 import com.proyecto.piscina.web.app.entities.Matricula;
 import com.proyecto.piscina.web.app.entities.Pago;
+import com.proyecto.piscina.web.app.services.AlumnoService;
 import com.proyecto.piscina.web.app.services.MatriculaService;
 import com.proyecto.piscina.web.app.services.PagoService;
 
@@ -25,6 +27,7 @@ public class PagoController {
 
     private final PagoService pagoService;
     private final MatriculaService matriculaService;
+    private final AlumnoService alumnoService;
 
 	public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -32,9 +35,10 @@ public class PagoController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
-	public PagoController(PagoService pagoService, MatriculaService matriculaService) {
+	public PagoController(PagoService pagoService, AlumnoService alumnoService, MatriculaService matriculaService) {
         this.pagoService = pagoService;
         this.matriculaService = matriculaService;
+        this.alumnoService = alumnoService;
     }
 
     @GetMapping
@@ -47,14 +51,21 @@ public class PagoController {
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         Pago pago = new Pago();
-        List<Matricula> matriculas = matriculaService.findAll();
+        List<Matricula> matriculas = matriculaService.findByEstado("No Pagado"); // Filtra por estado
+        List<Alumno> alumnos = alumnoService.getAllAlumnos();
         model.addAttribute("pago", pago);
+        model.addAttribute("alumnos", alumnos);
         model.addAttribute("matriculas", matriculas);
         return "CRUDS/Pago/create"; // Redirige a la vista de crear pago
     }
 
     @PostMapping
     public String savePago(@ModelAttribute("pago") Pago pago) {
+        Matricula matricula = matriculaService.findById(pago.getMatricula().getIdMatricula());
+        if (matricula != null) {
+            matricula.setEstado("Pagado"); // Cambia el estado de la matrícula a "Pagado"
+            matriculaService.update(matricula.getIdMatricula(), matricula);
+        }
         pago.setFecha(new Date()); // Establece la fecha actual
 		pagoService.savePago(pago);
         return "redirect:/pagos"; // Redirige al listado de pagos después de guardar
@@ -64,6 +75,8 @@ public class PagoController {
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
         Pago pago = pagoService.getPago(id)
 			.orElseThrow(() -> new IllegalArgumentException("Id de horario inválido:" + id));
+        List<Alumno> alumnos = alumnoService.getAllAlumnos();
+        model.addAttribute("alumnos", alumnos);
         List<Matricula> matriculas = matriculaService.findAll();
         model.addAttribute("pago", pago);
         model.addAttribute("matriculas", matriculas);
@@ -82,32 +95,4 @@ public class PagoController {
         return "redirect:/pagos"; // Redirige al listado de pagos después de eliminar
     }
 	
-	
-	// @Autowired
-	//     private PagoService pagoService;
-
-	//     @GetMapping
-	//     public List<Pago> getAllPagos() {
-	//         return pagoService.findAll();
-	//     }
-
-	//     @GetMapping("/{id}")
-	//     public Pago getPagoById(@PathVariable Long id) {
-	//         return pagoService.findById(id);
-	//     }
-
-	//     @PostMapping
-	//     public Pago createPago(@RequestBody Pago pago) {
-	//         return pagoService.savePago(pago);
-	//     }
-
-	//     @PutMapping("/{id}")
-	//     public Pago updatePago(@PathVariable Long id, @RequestBody Pago pago) {
-	//         return pagoService.update(id, pago);
-	//     }
-
-	//     @DeleteMapping("/{id}")
-	//     public void deletePago(@PathVariable Long id) {
-	//         pagoService.deleteById(id);
-	//     }
 }

@@ -61,4 +61,8 @@ public class PagoService {
     public Optional<Pago> getPago(long id) {
         return pagoRepository.findById(id);
     }
+
+    public Float calcularSumaTotalMontos() {
+        return pagoRepository.sumaTotalMontos();
+    }
 }

@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head th:replace="layout/plantilla :: head"></head>
 <body>
     <div class="wrapper">
@@ -15,46 +13,67 @@
                     <div class="page-header">
                         <h4 class="page-title">Crear Clase</h4>
                     </div>
-                </div>
-                <div>
-                    <form th:action="@{/clases}" th:object="${clase}" method="post">
-                        <div>
-                            <label for="curso">Curso</label>
-                            <select th:field="*{curso.id_curso}" class="form-control" id="curso">
-                                <option value="" disabled selected>Selecciona un Curso</option>
-                                <option th:each="curso : ${cursos}" 
-                                        th:value="${curso.id_curso}" 
-                                        th:text="${curso.nombre}"></option>
-                            </select>
-
-                            <label for="instructor">Instructor</label>
-                            <select th:field="*{instructor.idInstructor}" class="form-control" id="instructor">
-                                <option value="" disabled selected>Selecciona un Instructor</option>
-                                <option th:each="instructor : ${instructores}" 
-                                        th:value="${instructor.idInstructor}" 
-                                        th:text="${instructor.nombre}"></option>
-                            </select>
-
-                            <label for="fecha">Fecha</label>
-                            <input type="date" th:field="*{fecha}" class="form-control" id="fecha" placeholder="Fecha de la clase">
-
-                            <label for="horaInicio">Hora de Inicio</label>
-                            <input type="time" th:field="*{horaInicio}" class="form-control" id="horaInicio" placeholder="Hora de Inicio">
-                            
-                            <label for="horaFin">Hora de Fin</label>
-                            <input type="time" th:field="*{horaFin}" class="form-control" id="horaFin" placeholder="Hora de Fin">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form th:action="@{/clases}" th:object="${clase}" method="post">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="curso">Curso</label>
+                                                    <select th:field="*{curso.id_curso}" class="form-control" id="curso" required>
+                                                        <option value="" disabled selected>Selecciona un Curso</option>
+                                                        <option th:each="curso : ${cursos}" 
+                                                                th:value="${curso.id_curso}" 
+                                                                th:text="${curso.nombre}"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="instructor">Instructor</label>
+                                                    <select th:field="*{instructor.idInstructor}" class="form-control" id="instructor" required>
+                                                        <option value="" disabled selected>Selecciona un Instructor</option>
+                                                        <option th:each="instructor : ${instructores}" 
+                                                                th:value="${instructor.idInstructor}" 
+                                                                th:text="${instructor.nombre}"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="fecha">Fecha</label>
+                                                    <input type="date" th:field="*{fecha}" class="form-control" id="fecha" placeholder="Fecha de la clase" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="horaInicio">Hora de Inicio</label>
+                                                    <input type="time" th:field="*{horaInicio}" class="form-control" id="horaInicio" placeholder="Hora de Inicio" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="horaFin">Hora de Fin</label>
+                                                    <input type="time" th:field="*{horaFin}" class="form-control" id="horaFin" placeholder="Hora de Fin" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-action">
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <a href="/clases" class="btn btn-danger">Cancelar</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-
         <div th:replace="layout/plantilla :: color"></div>
     </div>
-
     <div th:replace="layout/plantilla :: scripts"></div>
 </body>
 </html>

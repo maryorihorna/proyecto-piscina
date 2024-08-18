@@ -1,9 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head th:replace="layout/plantilla :: head">
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout/plantilla :: head"></head>
 <body>
     <div class="wrapper">
         <div th:replace="layout/plantilla :: header"></div>
@@ -11,44 +8,60 @@
         <div th:replace="layout/plantilla :: sidebar"></div>
         <!-- Contenido principal -->
         <div class="main-panel">
-			<div class="content">
-				<div class="page-inner">
-					<div class="page-header">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header">
                         <h4 class="page-title">Actualizar Alumno</h4>
                     </div>
-                </div>
-                <div >
-                    <form th:action="@{/alumnos/update/{id}(id=${alumno.idalumno})}" th:object="${alumno}" method="post">
-                        <div>
-                            <label for="nombre">Nombre</label>
-                            <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre">
-                
-                            <label for="apellido">Apellido</label>
-                            <input type="text" th:field="*{apellido}" class="form-control" id="apellido" placeholder="Apellido">
-                
-                            <label for="email">Email</label>
-                            <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Email">
-                
-                            <label for="telefono">Telefono</label>
-                            <input type="text" th:field="*{telefono}" class="form-control" id="telefono" placeholder="Telefono">
-                          
-                            <label for="direccion">Dirección</label>
-                            <input type="text" th:field="*{direccion}" class="form-control" id="direccion" placeholder="Direccion">
-                            
-                            <label for="fecha_nacimiento">Fecha de Nacimiento</label>
-                            <input type="date" th:field="*{fecha_nacimiento}" class="form-control" id="fecha_nacimiento" placeholder="Fecha de Nacimiento">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form th:action="@{/alumnos/update/{id}(id=${alumno.idalumno})}" th:object="${alumno}" method="post">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="nombre">Nombre</label>
+                                                    <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="direccion">Dirección</label>
+                                                    <input type="text" th:field="*{direccion}" class="form-control" id="direccion" placeholder="Dirección" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                                                    <input type="date" th:field="*{fecha_nacimiento}" class="form-control" id="fecha_nacimiento" placeholder="Fecha de Nacimiento" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="apellido">Apellido</label>
+                                                    <input type="text" th:field="*{apellido}" class="form-control" id="apellido" placeholder="Apellido" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="telefono">Teléfono</label>
+                                                    <input type="tel" th:field="*{telefono}" class="form-control" id="telefono" placeholder="Teléfono" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email">Email</label>
+                                                    <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Email" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-action">
+                                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                                        <a href="/alumnos" class="btn btn-danger">Cancelar</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary">Actualizar</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-   
-        <div th:replace="layout/plantilla :: color" ></div>
+        <div th:replace="layout/plantilla :: color"></div>
     </div>
-     
     <div th:replace="layout/plantilla :: scripts"></div>
 </body>
 </html>

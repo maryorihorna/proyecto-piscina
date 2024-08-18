@@ -11,52 +11,169 @@
         <div th:replace="layout/plantilla :: sidebar"></div>
         <!-- Contenido principal -->
         <div class="main-panel">
-            <div class="content">
-                <div class="page-inner">
-                    <div class="page-header">
-                        <h4 class="page-title">Pagos</h4>
+			<div class="content">
+				<div class="page-inner">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <h4 class="card-title">Pagos</h4>
+                                    <a th:href="@{/pagos/create}" class="btn btn-primary btn-round ml-auto">
+                                        <i class="fa fa-plus"></i>
+                                        Crear Pago
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="add-row" class="display table table-striped table-hover" >
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Matrícula</th>
+                                                <th>Alumno</th>
+                                                <th>Fecha</th>
+                                                <th>Monto</th>
+                                                <th>Método de Pago</th>
+                                                <th style="width: 10%">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Matrícula</th>
+                                                <th>Alumno</th>
+                                                <th>Fecha</th>
+                                                <th>Monto</th>
+                                                <th>Método de Pago</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            <tr th:each="pago : ${pagos}">
+                                                <td th:text="${pago.idPago}"></td>
+                                                <td th:text="${pago.matricula.idMatricula}"></td>
+                                                <td th:text="${pago.nombreAlumno}"></td>
+                                                <td th:text="${pago.fecha}"></td>
+                                                <td th:text="${pago.monto}"></td>
+                                                <td th:text="${pago.metodoPago}"></td>
+                                                <td>
+                                                    <div class="form-button-action">
+                                                        <a th:href="@{/pagos/edit/{id}(id=${pago.idPago})}" class="btn btn-link btn-primary btn-lg">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <!-- Botón que activa el modal -->
+                                                        <a href="#" class="btn btn-link btn-danger" data-toggle="modal" data-target="#confirmDeleteModal" th:data-id="${pago.idPago}">
+                                                            <i class="fa fa-times"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Modal de confirmación de eliminación -->
+                                <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header no-bd">
+                                                <h5 class="modal-title">
+                                                    <span class="fw-mediumbold">Confirmar</span> 
+                                                    <span class="fw-light">Eliminación</span>
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="small">¿Estás seguro de que deseas eliminar este pago?</p>
+                                            </div>
+                                            <div class="modal-footer no-bd">
+                                                <a id="confirmDeleteButton" class="btn btn-primary" href="#">Eliminar</a>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <a th:href="@{/pagos/create}" class="btn btn-primary">Crear Pago</a>
-                </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Matrícula</th>
-                            <th>Fecha</th>
-                            <th>Monto</th>
-                            <th>Método de Pago</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="pago : ${pagos}">
-                            <td th:text="${pago.idPago}"></td>
-                            <td th:text="${pago.matricula.idMatricula}"></td>
-                            <td th:text="${pago.fecha}"></td>
-                            <td th:text="${pago.monto}"></td>
-                            <td th:text="${pago.metodoPago}"></td>
-                            <td>
-                                <a th:href="@{/pagos/edit/{id}(id=${pago.idPago})}" class="btn btn-sm btn-secondary">Editar</a>
-                                <a th:href="@{/pagos/delete/{id}(id=${pago.idPago})}" class="btn btn-sm btn-danger" onclick="confirmarEliminacion(event)">Eliminar</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                </div>   
             </div>
         </div>
-        <div th:replace="layout/plantilla :: color" ></div>
     </div>
-    <script>
-        function confirmarEliminacion(event) {
-            var confirmacion = confirm("¿Estás seguro de que deseas eliminar este pago?");
-            if (!confirmacion) {
-                event.preventDefault();
-            }
-        }
-    </script>
+
     <div th:replace="layout/plantilla :: scripts"></div>
+
+    <script>
+        $('#confirmDeleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Botón que activó el modal
+            var pagoId = button.data('id'); // Extrae el ID del pago
+    
+            // Verifica que pagoId es un número válido
+            if (isNaN(pagoId)) {
+                console.error('ID del pago no válido:', pagoId);
+                return;
+            }
+    
+            // Construye la URL completa para eliminar
+            var deleteUrl = '/pagos/delete/' + pagoId;
+    
+            // Asigna la URL al botón de confirmación en el modal
+            $(this).find('#confirmDeleteButton').attr('href', deleteUrl);
+        });
+    </script>
+    
+    
+    
+
+    <script>
+		$(document).ready(function() {
+			$('#basic-datatables').DataTable({
+			});
+
+			$('#multi-filter-select').DataTable( {
+				"pageLength": 5,
+				initComplete: function () {
+					this.api().columns().every( function () {
+						var column = this;
+						var select = $('<select class="form-control"><option value=""></option></select>')
+						.appendTo( $(column.footer()).empty() )
+						.on( 'change', function () {
+							var val = $.fn.dataTable.util.escapeRegex(
+								$(this).val()
+								);
+
+							column
+							.search( val ? '^'+val+'$' : '', true, false )
+							.draw();
+						} );
+
+						column.data().unique().sort().each( function ( d, j ) {
+							select.append( '<option value="'+d+'">'+d+'</option>' )
+						} );
+					} );
+				}
+			});
+
+			// Add Row
+			$('#add-row').DataTable({
+				"pageLength": 5,
+			});
+
+			var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+			$('#addRowButton').click(function() {
+				$('#add-row').dataTable().fnAddData([
+					$("#addName").val(),
+					$("#addPosition").val(),
+					$("#addOffice").val(),
+					action
+					]);
+				$('#addRowModal').modal('hide');
+
+			});
+		});
+	</script>
 </body>
 </html>

@@ -1,9 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head th:replace="layout/plantilla :: head">
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout/plantilla :: head"></head>
 <body>
     <div class="wrapper">
         <div th:replace="layout/plantilla :: header"></div>
@@ -11,56 +8,56 @@
         <div th:replace="layout/plantilla :: sidebar"></div>
         <!-- Contenido principal -->
         <div class="main-panel">
-			<div class="content">
-				<div class="page-inner">
-					<div class="page-header">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header">
                         <h4 class="page-title">Crear Matrícula</h4>
                     </div>
-                </div>
-                <div >
-                    <form th:action="@{/matriculas}" th:object="${matricula}" method="post">
-                        <div>
-                            <label for="alumno">Alumno</label>
-                            <select th:field="*{alumno.idalumno}" class="form-control" id="alumno">
-                                <option value="" disabled selected>Selecciona un Alumno</option>
-                                <option th:each="alumno : ${alumnos}" 
-                                        th:value="${alumno.idalumno}" 
-                                        th:text="${alumno.nombre + ' ' + alumno.apellido}"></option>
-                            </select>
-                            <label for="estado">Estado</label>
-                            <select th:field="*{estado}" class="form-control" id="estado">
-                                <option value="" disabled selected>Selecciona un Estado</option>
-                                <option value="Pagado">Pagado</option>
-                                <option value="No pagado">No pagado</option>
-                            </select> 
-                            <label for="clase">Clase</label>
-                            <select th:field="*{clase.id}" class="form-control" id="clase">
-                                <option value="0" disabled selected>Selecciona una Clase</option>
-                                <option th:each="clase : ${clases}" 
-                                        th:value="${clase.id}" 
-                                        th:text="${clase.curso.nombre}">
-                                </option>
-                            </select>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form th:action="@{/matriculas}" th:object="${matricula}" method="post">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="alumno">Alumno</label>
+                                                    <select th:field="*{alumno.idalumno}" class="form-control" id="alumno" required>
+                                                        <option value="" disabled selected>Selecciona un Alumno</option>
+                                                        <option th:each="alumno : ${alumnos}" 
+                                                                th:value="${alumno.idalumno}" 
+                                                                th:text="${alumno.nombre + ' ' + alumno.apellido}"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="clase">Clase</label>
+                                                    <select th:field="*{clase.id}" class="form-control" id="clase" required>
+                                                        <option value="0" disabled selected>Selecciona una Clase</option>
+                                                        <option th:each="clase : ${clases}" 
+                                                                th:value="${clase.id}" 
+                                                                th:text="${clase.curso.nombre}"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-action">
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <a href="/matriculas" class="btn btn-danger">Cancelar</a>
+                                    </div>
+                                </div>
+                                <!-- Campo oculto para el estado -->
+                                <input type="hidden" name="estado" value="No pagado"/>
+                            </form>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-   
-        <div th:replace="layout/plantilla :: color" ></div>
+        <div th:replace="layout/plantilla :: color"></div>
     </div>
-     
     <div th:replace="layout/plantilla :: scripts"></div>
 </body>
 </html>
-
-
-                            <!-- <label for="estado">Estado</label>
-                            <select th:field="*{estado}" class="form-control" id="estado">
-                                <option value="" disabled selected>Selecciona un Estado</option>
-                                <option value="Pagado">Pagado</option>
-                                <option value="No pagado">No pagado</option>
-                            </select> -->
