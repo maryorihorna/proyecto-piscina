@@ -1,5 +1,7 @@
 package com.proyecto.piscina.web.app.entities;
 
+import java.util.Objects;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +26,17 @@ public class Instructor extends Persona{
         IdInstructor = idInstructor;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Instructor curso = (Instructor) o;
+        return Objects.equals(IdInstructor, curso.IdInstructor);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(IdInstructor);
+    }
     
 }

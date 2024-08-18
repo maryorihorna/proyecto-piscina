@@ -1,6 +1,7 @@
 package com.proyecto.piscina.web.app.entities;
 
 import java.util.Date;
+import java.util.Objects;
 
 import jakarta.persistence.*;
 
@@ -101,5 +102,19 @@ public class Curso {
 	public void setFecha_fin(Date fecha_fin) {
 		this.fecha_fin = fecha_fin;
 	}
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Curso curso = (Curso) o;
+        return Objects.equals(id_curso, curso.id_curso);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id_curso);
+    }
+
+	
     
 }

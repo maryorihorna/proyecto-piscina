@@ -34,9 +34,9 @@ public class CursoService {
 		return cursoRepository.save(cursoActual);
 	 }
 
-	    public Curso getCurso(Long id) {
-	        return cursoRepository.findById(id).orElse(null);
-	    }
+		public Curso getCurso(Long id) {
+			return cursoRepository.findById(id).orElseThrow(() -> new IllegalStateException("El curso con id " + id + " no existe"));
+		}
 
 	    public List<Curso> getAllCursos() {
 	        return cursoRepository.findAll();
@@ -53,4 +53,5 @@ public class CursoService {
 	    public Optional<Curso> getCurso(long id) {
 	        return cursoRepository.findById(id);
 	    }
+		
 }

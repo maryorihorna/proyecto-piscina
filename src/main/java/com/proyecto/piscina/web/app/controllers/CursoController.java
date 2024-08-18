@@ -74,6 +74,7 @@ public class CursoController {
         return "redirect:/cursos"; // Redirige al listado de cursos después de eliminar
     }
 
+    
 
     // @GetMapping
     // public List<Curso> getAllCursos() {
