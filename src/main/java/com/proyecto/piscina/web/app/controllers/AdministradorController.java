@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.proyecto.piscina.web.app.entities.Administrador;
 import com.proyecto.piscina.web.app.services.AdministradorService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/administradores")
@@ -33,7 +36,10 @@ public class AdministradorController {
     }
 
     @PostMapping
-    public String saveAdministrador(@ModelAttribute("administrador") Administrador administrador) {
+    public String saveAdministrador( @Valid @ModelAttribute("administrador") Administrador administrador,BindingResult result, Model model ) {
+        if (result.hasErrors()) {
+            return "CRUDS/Administrador/create"; // Asegúrate de que esta ruta sea correcta
+        }
         administradorService.saveAdministrador(administrador);
         return "redirect:/administradores";
     }

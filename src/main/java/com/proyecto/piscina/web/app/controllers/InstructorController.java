@@ -2,9 +2,12 @@ package com.proyecto.piscina.web.app.controllers;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.proyecto.piscina.web.app.entities.Instructor;
 import com.proyecto.piscina.web.app.services.InstructorService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/instructores")
@@ -31,7 +34,10 @@ public class InstructorController {
     }
 
     @PostMapping
-    public String saveInstructor(@ModelAttribute("instructor") Instructor instructor) {
+    public String saveInstructor(@Valid @ModelAttribute("instructor") Instructor instructor, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "CRUDS/Instructor/create"; // Asegúrate de que esta ruta sea correcta
+        }
         instructorService.saveInstructor(instructor);
         return "redirect:/instructores";
     }
