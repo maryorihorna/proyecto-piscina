@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.proyecto.piscina.web.app.entities.Alumno;
 import com.proyecto.piscina.web.app.services.AlumnoService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/alumnos")
@@ -49,7 +52,10 @@ public class AlumnoController {
     }
 
     @PostMapping
-    public String saveAlumno(@ModelAttribute("alumno") Alumno alumno) {
+    public String saveAlumno( @Valid @ModelAttribute("alumno") Alumno alumno,  BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "CRUDS/Alumno/create"; // Asegúrate de que esta ruta sea correcta
+        }
         alumnoService.saveAlumno(alumno);
         return "redirect:/alumnos";
     }

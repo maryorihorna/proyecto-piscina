@@ -26,20 +26,24 @@
                                                 <div class="form-group">
                                                     <label for="nombre">Nombre</label>
                                                     <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre">
+                                                    <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="text-danger"></div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="apellido">Apellido</label>
                                                     <input type="text" th:field="*{apellido}" class="form-control" id="apellido" placeholder="Apellido">
+                                                    <div th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}" class="text-danger"></div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="email">Email</label>
                                                     <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Email">
+                                                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="telefono">Teléfono</label>
                                                     <input type="text" th:field="*{telefono}" class="form-control" id="telefono" placeholder="Teléfono">
+                                                    <div th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}" class="text-danger"></div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="username">Usuario</label>

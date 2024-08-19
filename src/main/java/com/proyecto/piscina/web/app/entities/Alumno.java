@@ -70,6 +70,10 @@ public class Alumno extends Persona{
         this.usuario = usuario;
     }
 
+    public Object get() {
+        return getNombre();
+    }
+
 
 
 }
