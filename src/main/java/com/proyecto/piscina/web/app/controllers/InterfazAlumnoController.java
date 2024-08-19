@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import com.proyecto.piscina.web.app.entities.Alumno;
 import com.proyecto.piscina.web.app.entities.Clase;
 import com.proyecto.piscina.web.app.entities.Matricula;
+import com.proyecto.piscina.web.app.entities.Pago;
 import com.proyecto.piscina.web.app.services.AlumnoService;
 import com.proyecto.piscina.web.app.services.ClaseService;
 import com.proyecto.piscina.web.app.services.MatriculaService;
+import com.proyecto.piscina.web.app.services.PagoService;
 import com.proyecto.piscina.web.app.services.ProfileService;
 
 @Controller
@@ -28,6 +30,8 @@ public class InterfazAlumnoController {
     private final ClaseService claseService;
     private final MatriculaService matriculaService;
 
+    private final PagoService pagoService;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -36,10 +40,12 @@ public class InterfazAlumnoController {
     }
 
     @Autowired
-    public InterfazAlumnoController(AlumnoService alumnoService, ClaseService claseService, MatriculaService matriculaService) {
+
+    public InterfazAlumnoController(AlumnoService alumnoService, ClaseService claseService, MatriculaService matriculaService, PagoService pagoService) {
         this.alumnoService = alumnoService;
         this.claseService = claseService;
         this.matriculaService = matriculaService;
+        this.pagoService = pagoService;
     }
 
     @GetMapping
@@ -73,4 +79,28 @@ public class InterfazAlumnoController {
         matriculaService.saveMatricula(matricula);
         return "redirect:/alumno/matricula";
     }
+
+    @GetMapping("/pago")
+    public String showCreateForm(Model model) {
+        Pago pago = new Pago();
+        List<Matricula> matriculas = matriculaService.findByEstado("No Pagado"); // Filtra por estado
+        Alumno alumno = profileService.getAlumnoByUsuario();
+        model.addAttribute("pago", pago);
+        model.addAttribute("alumno", alumno);
+        model.addAttribute("matriculas", matriculas);
+        return "pago"; // Redirige a la vista de crear pago
+    }
+
+    @PostMapping("/pago")
+    public String savePago(@ModelAttribute("pago") Pago pago) {
+        Matricula matricula = matriculaService.findById(pago.getMatricula().getIdMatricula());
+        if (matricula != null) {
+            matricula.setEstado("Pagado"); // Cambia el estado de la matrícula a "Pagado"
+            matriculaService.update(matricula.getIdMatricula(), matricula);
+        }
+        pago.setFecha(new Date()); // Establece la fecha actual
+		pagoService.savePago(pago);
+        return "redirect:/alumno/pagos"; // Redirige al listado de pagos después de guardar
+    }
+
 }

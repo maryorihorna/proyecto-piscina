@@ -85,6 +85,7 @@ public class MatriculaService {
 			long pagadas = matriculaRepository.countByEstado("Pagado");
 			return (pagadas * 100.0f) / totalMatriculas;
 		}
+
 	
 		public List<Matricula> findByEstado(String estado) {
 			return matriculaRepository.findByEstado(estado);
