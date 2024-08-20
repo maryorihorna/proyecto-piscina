@@ -26,7 +26,8 @@
                                                         <option value="" disabled selected>Selecciona un Curso</option>
                                                         <option th:each="curso : ${cursos}" 
                                                                 th:value="${curso.id_curso}" 
-                                                                th:text="${curso.nombre}"></option>
+                                                                th:text="${curso.nombre}" 
+                                                                th:data-fecha-inicio="${curso.fecha_inicio}"></option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -44,7 +45,8 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="fecha">Fecha</label>
-                                                    <input type="date" th:field="*{fecha}" class="form-control" id="fecha" placeholder="Fecha de la clase" required>
+                                                    <!-- Campo de fecha que toma el valor del modelo -->
+                                                    <input type="date" th:field="*{fecha}" class="form-control" id="fecha" readonly required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -75,5 +77,31 @@
         <div th:replace="layout/plantilla :: color"></div>
     </div>
     <div th:replace="layout/plantilla :: scripts"></div>
+
+    <!-- Script para actualizar la fecha según el curso seleccionado -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cursoSelect = document.getElementById('curso');
+            const fechaInput = document.getElementById('fecha');
+
+            // Actualizar fecha al cambiar el curso seleccionado
+            cursoSelect.addEventListener('change', function() {
+                const selectedOption = cursoSelect.options[cursoSelect.selectedIndex];
+                const fechaInicio = selectedOption.getAttribute('data-fecha-inicio');
+                
+                if (fechaInicio) {
+                    fechaInput.value = fechaInicio;
+                } else {
+                    fechaInput.value = '';
+                }
+            });
+
+            // Seleccionar automáticamente el primer curso y mostrar su fecha
+            if (cursoSelect.selectedIndex > 0) {
+                const selectedOption = cursoSelect.options[cursoSelect.selectedIndex];
+                fechaInput.value = selectedOption.getAttribute('data-fecha-inicio');
+            }
+        });
+    </script>
 </body>
 </html>

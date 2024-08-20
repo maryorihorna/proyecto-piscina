@@ -24,7 +24,7 @@ public class UsuarioService {
         // Asignar el rol USER por defecto
         Set<String> roles = usuario.getRoles();
         if (roles == null || roles.isEmpty()) {
-            usuario.setRoles(Collections.singleton("ADMIN")); // Asignar el rol USER por defecto
+            usuario.setRoles(Collections.singleton("USER")); // Asignar el rol USER por defecto
         }
         return usuarioRepository.save(usuario);
     }

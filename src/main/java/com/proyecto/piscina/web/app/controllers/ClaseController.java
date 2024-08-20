@@ -56,9 +56,17 @@ public class ClaseController {
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
-        Clase clase = new Clase();
         List<Curso> cursos = cursoService.getAllCursos();
         List<Instructor> instructores = instructorService.getAllInstructors();
+
+        Clase clase = new Clase();
+        if (!cursos.isEmpty()) {
+            // Obtener la fecha_inicio del primer curso
+            Curso primerCurso = cursos.get(0);
+            clase.setCurso(primerCurso);
+            clase.setFecha(primerCurso.getFecha_inicio());
+        }
+
         model.addAttribute("clase", clase);
         model.addAttribute("cursos", cursos);
         model.addAttribute("instructores", instructores);

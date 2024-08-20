@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.proyecto.piscina.web.app.entities.Alumno;
+import com.proyecto.piscina.web.app.entities.Curso;
 import com.proyecto.piscina.web.app.entities.Matricula;
 import com.proyecto.piscina.web.app.entities.Pago;
 import com.proyecto.piscina.web.app.services.AlumnoService;
+import com.proyecto.piscina.web.app.services.CursoService;
 import com.proyecto.piscina.web.app.services.MatriculaService;
 import com.proyecto.piscina.web.app.services.PagoService;
 
@@ -28,6 +30,7 @@ public class PagoController {
     private final PagoService pagoService;
     private final MatriculaService matriculaService;
     private final AlumnoService alumnoService;
+    private final CursoService cursoService;
 
 	public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -35,10 +38,11 @@ public class PagoController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
-	public PagoController(PagoService pagoService, AlumnoService alumnoService, MatriculaService matriculaService) {
+	public PagoController(PagoService pagoService, AlumnoService alumnoService, MatriculaService matriculaService, CursoService cursoService) {
         this.pagoService = pagoService;
         this.matriculaService = matriculaService;
         this.alumnoService = alumnoService;
+        this.cursoService = cursoService;
     }
 
     @GetMapping
@@ -61,13 +65,28 @@ public class PagoController {
 
     @PostMapping
     public String savePago(@ModelAttribute("pago") Pago pago) {
+        // Buscar la matrícula
         Matricula matricula = matriculaService.findById(pago.getMatricula().getIdMatricula());
+        
         if (matricula != null) {
-            matricula.setEstado("Pagado"); // Cambia el estado de la matrícula a "Pagado"
+            // Cambiar el estado de la matrícula a "Pagado"
+            matricula.setEstado("Pagado");
             matriculaService.update(matricula.getIdMatricula(), matricula);
+
+            // Obtener el curso asociado a la clase de la matrícula
+            Curso curso = matricula.getClase().getCurso();
+            
+            if (curso != null && curso.getCupo_maximo() > 0) {
+                // Reducir el cupo máximo en 1
+                curso.setCupo_maximo(curso.getCupo_maximo() - 1);
+                cursoService.updateCurso(curso.getId_curso(), curso); // Actualizar el curso
+            }
         }
-        pago.setFecha(new Date()); // Establece la fecha actual
-		pagoService.savePago(pago);
+        
+        // Establecer la fecha actual para el pago
+        pago.setFecha(new Date());
+        pagoService.savePago(pago);
+        
         return "redirect:/pagos"; // Redirige al listado de pagos después de guardar
     }
 
