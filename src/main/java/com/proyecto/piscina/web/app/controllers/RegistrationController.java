@@ -35,6 +35,6 @@ public class RegistrationController {
 
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuarioService.saveUsuario(usuario);
-        return "registrationSuccess";
+        return "inicio";
     }
 }
