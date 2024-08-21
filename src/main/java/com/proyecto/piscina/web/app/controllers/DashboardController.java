@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +16,6 @@ import com.proyecto.piscina.web.app.services.MatriculaService;
 import com.proyecto.piscina.web.app.services.PagoService;
 
 @Controller
-@RequestMapping("/inicio")
 public class DashboardController {
     
     private AlumnoService alumnoService;
@@ -67,6 +65,6 @@ public class DashboardController {
         String matriculasPorMesJson = objectMapper.writeValueAsString(matriculasPorMes);
         model.addAttribute("matriculasPorMesJson", matriculasPorMesJson);
 
-        return "inicio"; // Nombre del archivo HTML.
+        return "Inicio"; // Nombre del archivo HTML.
     }
 }
