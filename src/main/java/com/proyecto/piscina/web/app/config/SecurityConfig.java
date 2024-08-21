@@ -1,4 +1,6 @@
 package com.proyecto.piscina.web.app.config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -7,9 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.proyecto.piscina.web.app.services.MyUserDetailsService;
@@ -61,12 +60,12 @@ public class SecurityConfig {
                 .failureUrl("/login?error=true")
                 .permitAll()
             )
-            .oauth2Login((oauth2) -> oauth2
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/login?error=true")
-                .permitAll()
-            )
+            // .oauth2Login((oauth2) -> oauth2
+            //     .loginPage("/login")
+            //     .defaultSuccessUrl("/", true)
+            //     .failureUrl("/login?error=true")
+            //     .permitAll()
+            // )
             .logout((logout) -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout=true")
