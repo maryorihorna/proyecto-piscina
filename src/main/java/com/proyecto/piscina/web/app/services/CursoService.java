@@ -15,7 +15,6 @@ public class CursoService {
 	 
 	 private final CursoRepository cursoRepository;
 
-	 
 	 public CursoService(CursoRepository cursoRepository) {
 		this.cursoRepository = cursoRepository;
 	 }
@@ -56,7 +55,6 @@ public class CursoService {
 	        return cursoRepository.findById(id);
 	    }
 		
-
 		public long contarCursos() {
 			return cursoRepository.count();
 		}

@@ -7,6 +7,7 @@ import com.proyecto.piscina.web.app.respository.AdministradorRespository;
 import com.proyecto.piscina.web.app.respository.UsuarioRepository;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +15,6 @@ import java.util.Optional;
 public class AdministradorService {
 
     private final AdministradorRespository administradorRepository;
-
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -24,11 +24,13 @@ public class AdministradorService {
         this.passwordEncoder = passwordEncoder;
     }
 
-
     public Administrador saveAdministrador(Administrador administrador) {
         // Encriptar la contraseña del usuario
         Usuario usuario = administrador.getUsuario();
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
+        // Asignar el rol ADMIN al usuario
+        usuario.setRoles(Collections.singleton("ADMIN"));
 
         // Primero, guarda el usuario
         Usuario savedUsuario = usuarioRepository.save(usuario);
@@ -41,10 +43,10 @@ public class AdministradorService {
     public Administrador updateAdministrador(long id, Administrador administrador) {
         Administrador administradorActual = administradorRepository.findById(id)
             .orElseThrow(() -> new IllegalStateException("El administrador con id " + id + " no existe"));
-            administradorActual.setNombre(administrador.getNombre());
-            administradorActual.setApellido(administrador.getApellido());
-            administradorActual.setTelefono(administrador.getTelefono());
-            administradorActual.setEmail(administrador.getEmail());
+        administradorActual.setNombre(administrador.getNombre());
+        administradorActual.setApellido(administrador.getApellido());
+        administradorActual.setTelefono(administrador.getTelefono());
+        administradorActual.setEmail(administrador.getEmail());
         return administradorRepository.save(administradorActual);
     }
 

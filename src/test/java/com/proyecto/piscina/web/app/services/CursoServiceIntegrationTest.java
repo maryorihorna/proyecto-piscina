@@ -51,7 +51,6 @@ public class CursoServiceIntegrationTest {
         curso.setCupo_maximo(10);
         curso.setFecha_inicio(new Date());
         curso.setFecha_fin(new Date(System.currentTimeMillis() + 86400000L * 60)); // 60 días después
-
         Curso savedCurso = cursoService.saveCurso(curso);
         assertThat(savedCurso).isNotNull();
         assertThat(savedCurso.getId_curso()).isNotNull();
@@ -66,7 +65,6 @@ public class CursoServiceIntegrationTest {
         updatedCurso.setCupo_maximo(15);
         updatedCurso.setFecha_inicio(new Date());
         updatedCurso.setFecha_fin(new Date(System.currentTimeMillis() + 86400000L * 45)); // 45 días después
-
         Curso result = cursoService.updateCurso(testCurso.getId_curso(), updatedCurso);
         assertThat(result).isNotNull();
         assertThat(result.getNombre()).isEqualTo("Curso Avanzado");
