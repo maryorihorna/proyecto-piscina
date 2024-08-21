@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.proyecto.piscina.web.app.services.MyUserDetailsService;
@@ -60,7 +61,12 @@ public class SecurityConfig {
                 .failureUrl("/login?error=true")
                 .permitAll()
             )
-
+            .oauth2Login((oauth2) -> oauth2
+                .loginPage("/login")
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/login?error=true")
+                .permitAll()
+            )
             .logout((logout) -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout=true")
