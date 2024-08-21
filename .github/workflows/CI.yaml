@@ -3,7 +3,7 @@ name: Workflow para la construcción y subida de la imagen docker
 on:
   push:
     branches:
-      - docker
+      - dockerfinish
 
 jobs:
   build-and-push:
