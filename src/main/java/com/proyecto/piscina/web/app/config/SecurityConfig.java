@@ -60,13 +60,17 @@ public class SecurityConfig {
                 .failureUrl("/login?error=true")
                 .permitAll()
             )
-
+            .oauth2Login((oauth2) -> oauth2
+                .loginPage("/login")
+                .successHandler(successHandler)
+                .failureUrl("/login?error=true")
+                .permitAll()
+            )
             .logout((logout) -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout=true")
                 .permitAll()
-            )
-            ;
+            );
         logger.info("Cadena de filtros de seguridad configurada correctamente");
 
         return http.build();
