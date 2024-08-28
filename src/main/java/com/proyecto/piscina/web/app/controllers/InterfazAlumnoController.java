@@ -39,8 +39,6 @@ public class InterfazAlumnoController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
-    @Autowired
-
     public InterfazAlumnoController(AlumnoService alumnoService, ClaseService claseService, MatriculaService matriculaService, PagoService pagoService) {
         this.alumnoService = alumnoService;
         this.claseService = claseService;

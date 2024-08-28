@@ -25,7 +25,6 @@ public class DashboardController {
     private HorarioService horarioService;
 
 
-    @Autowired
     public DashboardController(HorarioService horarioService, AlumnoService alumnoService,CursoService cursoService,PagoService pagoService, MatriculaService matriculaService) {
         this.alumnoService = alumnoService;
         this.cursoService = cursoService;

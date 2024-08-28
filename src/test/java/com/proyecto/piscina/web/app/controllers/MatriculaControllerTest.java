@@ -1,13 +1,7 @@
 package com.proyecto.piscina.web.app.controllers;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.Arrays;
-import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,9 +13,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.proyecto.piscina.web.app.entities.Alumno;
-import com.proyecto.piscina.web.app.entities.Clase;
-import com.proyecto.piscina.web.app.entities.Matricula;
 import com.proyecto.piscina.web.app.services.AlumnoService;
 import com.proyecto.piscina.web.app.services.ClaseService;
 import com.proyecto.piscina.web.app.services.MatriculaService;
